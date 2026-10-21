@@ -18,7 +18,11 @@
     "worker:sync": "bun run --filter @team-dashboard/api worker:sync",
     "db:migrate": "bun --env-file=.env run --filter @team-dashboard/db migrate",
     "db:seed": "bun --env-file=.env run --filter @team-dashboard/db seed",
-    "db:setup": "bun run db:migrate && bun run db:seed"
+    "db:setup": "bun run db:migrate && bun run db:seed",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:setup": "docker compose --profile setup run --rm migrate && docker compose --profile setup run --rm seed",
+    "docker:coolify:config": "docker compose -f docker-compose.coolify.yml config"
   },
   "devDependencies": {
     "@types/bun": "^1.2.21",

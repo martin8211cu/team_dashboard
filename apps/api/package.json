@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "bun --env-file=../../.env run --watch src/index.ts",
-    "start": "bun --env-file=../../.env run src/index.ts",
-    "worker": "bun --env-file=../../.env run src/worker/index.ts",
-    "worker:sync": "bun --env-file=../../.env run src/worker/run-once.ts",
+    "start": "bun run src/index.ts",
+    "worker": "bun run src/worker/index.ts",
+    "worker:sync": "bun run src/worker/run-once.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

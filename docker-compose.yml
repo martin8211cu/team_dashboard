@@ -1,0 +1,84 @@
+# PostgreSQL is external — set DATABASE_URL in .env (Coolify DB, managed Postgres, etc.)
+# En Docker Desktop (Windows/Mac), Postgres en el host: usa host.docker.internal en DATABASE_URL
+# o exporta DATABASE_URL antes de `compose up` (tiene prioridad sobre .env del archivo).
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: "8090"
+      DATABASE_URL: ${DATABASE_URL}
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost:8080}
+    expose:
+      - "8090"
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL}
+    command: ["/usr/local/bin/team-dashboard-worker"]
+    depends_on:
+      api:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        # Same-origin: nginx proxies /api → api (leave empty)
+        VITE_API_BASE_URL: ""
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+
+  migrate:
+    profiles: ["setup"]
+    build:
+      context: .
+      dockerfile: packages/db/Dockerfile
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    working_dir: /app
+    command: ["bun", "packages/db/scripts/run-migrate.ts"]
+    restart: "no"
+
+  seed:
+    profiles: ["setup"]
+    build:
+      context: .
+      dockerfile: packages/db/Dockerfile
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    working_dir: /app
+    command: ["bun", "packages/db/scripts/run-seed.ts"]
+    restart: "no"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully

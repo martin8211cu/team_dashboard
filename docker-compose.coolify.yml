@@ -1,0 +1,128 @@
+# Coolify — Docker Compose resource (PostgreSQL fuera del stack).
+#
+# 1. Crea Postgres en Coolify y copia DATABASE_URL al stack.
+# 2. Build pack: Docker Compose → archivo: docker-compose.coolify.yml
+# 3. Asigna dominio HTTPS solo al servicio **web** (puerto 80).
+# 4. WEB_ORIGIN = misma URL pública (ej. https://dashboard.example.com).
+# 5. migrate → seed → api (healthy) → web / worker
+# 6. Deja VITE_API_BASE_URL vacío (nginx en web proxy /api → api).
+
+name: team-dashboard
+
+x-db-env: &db-env
+  DATABASE_URL: ${DATABASE_URL:?}
+  DATABASE_ADMIN_DATABASE: ${DATABASE_ADMIN_DATABASE:-postgres}
+
+x-seed-env: &seed-env
+  <<: *db-env
+  AUTH_ADMIN_EMAIL: ${AUTH_ADMIN_EMAIL:?}
+  AUTH_DEFAULT_PASSWORD: ${AUTH_DEFAULT_PASSWORD:?}
+
+x-team-env: &team-env
+  TEAM_PROJECT: ${TEAM_PROJECT:?}
+  TEAM_MIN_SPRINT_NUMBER: ${TEAM_MIN_SPRINT_NUMBER:-1}
+  TEAM_EPICS_SUMMARY_CONTAINS: ${TEAM_EPICS_SUMMARY_CONTAINS:-}
+  TEAM_BOARD_ID: ${TEAM_BOARD_ID:-}
+  TEAM_CYCLE_START_STATUS: ${TEAM_CYCLE_START_STATUS:-To Do}
+  TEAM_BLOCKED_STATUS: ${TEAM_BLOCKED_STATUS:-Blocked}
+  TEAM_REFINEMENT_STATUS: ${TEAM_REFINEMENT_STATUS:-In Progress}
+
+services:
+  migrate:
+    build:
+      context: .
+      dockerfile: packages/db/Dockerfile
+    restart: "no"
+    working_dir: /app
+    command: ["bun", "packages/db/scripts/run-migrate.ts"]
+    environment:
+      <<: *db-env
+
+  seed:
+    build:
+      context: .
+      dockerfile: packages/db/Dockerfile
+    restart: "no"
+    working_dir: /app
+    command: ["bun", "packages/db/scripts/run-seed.ts"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      <<: *seed-env
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    expose:
+      - "8090"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      seed:
+        condition: service_completed_successfully
+    environment:
+      NODE_ENV: production
+      PORT: ${PORT:-8090}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      GRACEFUL_SHUTDOWN_TIMEOUT_MS: ${GRACEFUL_SHUTDOWN_TIMEOUT_MS:-30000}
+      DATABASE_URL: ${DATABASE_URL:?}
+      WEB_ORIGIN: ${WEB_ORIGIN:?}
+      AUTH_ADMIN_EMAIL: ${AUTH_ADMIN_EMAIL:?}
+      AUTH_DEFAULT_PASSWORD: ${AUTH_DEFAULT_PASSWORD:?}
+      AUTH_SESSION_DAYS: ${AUTH_SESSION_DAYS:-7}
+      AUTH_COOKIE_NAME: ${AUTH_COOKIE_NAME:-td_session}
+      AUTH_COOKIE_SECURE: ${AUTH_COOKIE_SECURE:-true}
+      AUTH_COOKIE_SAME_SITE: ${AUTH_COOKIE_SAME_SITE:-lax}
+      JIRA_BASE_URL: ${JIRA_BASE_URL:?}
+      JIRA_EMAIL: ${JIRA_EMAIL:?}
+      JIRA_API_TOKEN: ${JIRA_API_TOKEN:?}
+      <<: *team-env
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    command: ["/usr/local/bin/team-dashboard-worker"]
+    expose:
+      - "8091"
+    depends_on:
+      api:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      GRACEFUL_SHUTDOWN_TIMEOUT_MS: ${GRACEFUL_SHUTDOWN_TIMEOUT_MS:-30000}
+      DATABASE_URL: ${DATABASE_URL:?}
+      JIRA_BASE_URL: ${JIRA_BASE_URL:?}
+      JIRA_EMAIL: ${JIRA_EMAIL:?}
+      JIRA_API_TOKEN: ${JIRA_API_TOKEN:?}
+      <<: *team-env
+      WORKER_PORT: ${WORKER_PORT:-8091}
+      SYNC_CRON: ${SYNC_CRON:-0 3 * * *}
+      SYNC_SPRINT_DELAY_MS: ${SYNC_SPRINT_DELAY_MS:-60000}
+      SYNC_CHANGELOG_CONCURRENCY: ${SYNC_CHANGELOG_CONCURRENCY:-3}
+      SYNC_MAX_CLOSED_PER_RUN: ${SYNC_MAX_CLOSED_PER_RUN:-}
+      SYNC_RUN_ON_START: ${SYNC_RUN_ON_START:-false}
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-}
+    restart: unless-stopped
+    expose:
+      - "80"
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

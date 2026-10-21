@@ -1,0 +1,16 @@
+node_modules/
+dist/
+output/
+graphify-out/
+*.db
+*.db-journal
+.env
+.env.local
+.DS_Store
+*.log
+.turbo
+*.tsbuildinfo
+
+# Local / private team configs (keep example.json in git)
+packages/shared/config/teams/local.json
+**/team.local.json

@@ -1,0 +1,27 @@
+{
+  "name": "team-dashboard",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun scripts/dev.ts",
+    "dev:api": "bun run --filter @team-dashboard/api dev",
+    "dev:web": "bun run --filter @team-dashboard/web dev",
+    "build": "bun run --filter '*' build",
+    "typecheck": "bun run typecheck:scripts && bun run --filter '*' typecheck",
+    "typecheck:scripts": "tsc -p scripts/tsconfig.json --noEmit",
+    "export:tasks": "bun run --filter @team-dashboard/cli export:tasks",
+    "export:sprint": "bun run --filter @team-dashboard/cli export:sprint",
+    "worker": "bun run --filter @team-dashboard/api worker",
+    "worker:sync": "bun run --filter @team-dashboard/api worker:sync",
+    "db:migrate": "bun --env-file=.env run --filter @team-dashboard/db migrate",
+    "db:seed": "bun --env-file=.env run --filter @team-dashboard/db seed",
+    "db:setup": "bun run db:migrate && bun run db:seed"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.21",
+    "typescript": "^5.9.2"
+  }
+}

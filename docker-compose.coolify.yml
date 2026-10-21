@@ -1,6 +1,7 @@
 # Coolify — Docker Compose resource (PostgreSQL fuera del stack).
 #
-# 1. Crea Postgres en Coolify y copia DATABASE_URL al stack.
+# 1. Postgres en Coolify: usa la URL **interna** (hostname del servicio, no localhost).
+#    Si migrate falla, abre logs del contenedor migrate-* (mensaje [migrate] failed).
 # 2. Build pack: Docker Compose → archivo: docker-compose.coolify.yml
 # 3. Asigna dominio HTTPS solo al servicio **web** (puerto 80).
 # 4. WEB_ORIGIN = misma URL pública (ej. https://dashboard.example.com).

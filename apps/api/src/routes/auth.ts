@@ -3,8 +3,8 @@ import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import type { AuthMeResponse, LoginResponse } from "@team-dashboard/shared";
 import {
   AUTH_COOKIE_NAME,
+  getSessionCookieOptions,
   getSessionTtlDays,
-  isSecureCookie,
 } from "../lib/authConfig";
 import {
   getUserFromSessionToken,
@@ -16,20 +16,22 @@ export const authRoutes = new Hono();
 
 function setSessionCookie(c: Parameters<typeof setCookie>[0], token: string): void {
   const maxAge = getSessionTtlDays() * 24 * 60 * 60;
+  const { sameSite, secure } = getSessionCookieOptions();
   setCookie(c, AUTH_COOKIE_NAME, token, {
     httpOnly: true,
     path: "/",
-    sameSite: "Lax",
-    secure: isSecureCookie(),
+    sameSite,
+    secure,
     maxAge,
   });
 }
 
 function clearSessionCookie(c: Parameters<typeof deleteCookie>[0]): void {
+  const { sameSite, secure } = getSessionCookieOptions();
   deleteCookie(c, AUTH_COOKIE_NAME, {
     path: "/",
-    secure: isSecureCookie(),
-    sameSite: "Lax",
+    secure,
+    sameSite,
   });
 }
 

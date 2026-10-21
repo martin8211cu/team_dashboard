@@ -41,6 +41,33 @@ export function isSecureCookie(): boolean {
   return process.env.NODE_ENV === "production";
 }
 
+export type CookieSameSite = "Lax" | "Strict" | "None";
+
+export function getCookieSameSite(): CookieSameSite {
+  const raw = process.env.AUTH_COOKIE_SAME_SITE?.trim().toLowerCase();
+  if (raw === "none") {
+    return "None";
+  }
+  if (raw === "strict") {
+    return "Strict";
+  }
+  return "Lax";
+}
+
+export function getWebOrigin(): string {
+  const origin = process.env.WEB_ORIGIN?.trim() || "http://localhost:5173";
+  return origin.replace(/\/+$/, "");
+}
+
+export function getSessionCookieOptions(): { sameSite: CookieSameSite; secure: boolean } {
+  const sameSite = getCookieSameSite();
+  let secure = isSecureCookie();
+  if (sameSite === "None" && !secure) {
+    secure = true;
+  }
+  return { sameSite, secure };
+}
+
 export function addDaysIso(days: number): string {
   return new Date(Date.now() + days * 24 * 60 * 60_000).toISOString();
 }

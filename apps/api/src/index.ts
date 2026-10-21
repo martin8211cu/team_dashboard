@@ -1,5 +1,6 @@
-import { loadDefaultTeamSettings, loadTeamSettings } from "@team-dashboard/shared";
+import { resolveTeamSettings } from "@team-dashboard/shared";
 import { Hono } from "hono";
+import { getWebOrigin } from "./lib/authConfig";
 import { createLogger } from "./lib/logger";
 import { registerGracefulShutdown } from "./lib/shutdown";
 import { cors } from "hono/cors";
@@ -17,12 +18,7 @@ import { retroRoutes } from "./routes/retros";
 import { backfillMissingPasswords, ensureAdminMember } from "./services/authService";
 const log = createLogger("api");
 
-function loadTeamSettingsForStartup() {
-  const configPath = process.env.TEAM_CONFIG_PATH;
-  return configPath ? loadTeamSettings(configPath) : loadDefaultTeamSettings();
-}
-
-const minSprintNumber = loadTeamSettingsForStartup().minSprintNumber;
+const minSprintNumber = resolveTeamSettings().minSprintNumber;
 if (minSprintNumber != null) {
   const pruned = await deleteSprintSnapshotsBelow(minSprintNumber);
   if (pruned.taskSnapshots > 0 || pruned.metricsSnapshots > 0) {
@@ -37,7 +33,7 @@ await backfillMissingPasswords();
 
 const app = new Hono();
 
-const webOrigin = process.env.WEB_ORIGIN ?? "http://localhost:5173";
+const webOrigin = getWebOrigin();
 
 app.use(
   "*",

@@ -9,9 +9,9 @@ function quoteIdent(name: string): string {
 function targetDatabaseName(connectionUrl: string): string {
   const url = new URL(connectionUrl);
   const name = decodeURIComponent(url.pathname.replace(/^\//, "") || "postgres");
-  if (!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(name)) {
+  if (!/^[a-zA-Z_][a-zA-Z0-9_-]*$/.test(name)) {
     throw new Error(
-      `Database name "${name}" cannot be auto-created (use letters, digits, underscore; start with letter or _)`,
+      `Database name "${name}" cannot be auto-created (use letters, digits, underscore, hyphen; start with letter or _)`,
     );
   }
   return name;

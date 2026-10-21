@@ -27,6 +27,10 @@ team-dashboard/
         └── config/teams/   # example.json (+ local.json gitignored)
 ```
 
+## Contribuir
+
+Ver [CONTRIBUTING.md](CONTRIBUTING.md) (setup local, PRs, qué no commitear).
+
 ## License
 
 [MIT](LICENSE)

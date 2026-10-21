@@ -11,7 +11,7 @@ import {
   getUserFromSessionToken,
   loginWithPassword,
   logoutSession,
-  setMemberPassword,
+  changeMemberPassword,
 } from "../services/authService";
 
 type AuthRouteEnv = {
@@ -83,15 +83,23 @@ authRoutes.post("/logout", async (c) => {
 
 authRoutes.patch("/password", requireAuth, async (c) => {
   const user = c.get("user") as AuthUser;
-  const body = (await c.req.json().catch(() => ({}))) as { password?: unknown };
+  const body = (await c.req.json().catch(() => ({}))) as {
+    currentPassword?: unknown;
+    password?: unknown;
+  };
+  const currentPassword = typeof body.currentPassword === "string" ? body.currentPassword : "";
   const password = typeof body.password === "string" ? body.password : "";
 
   try {
-    await setMemberPassword(user.id, password);
+    await changeMemberPassword(user.id, currentPassword, password);
     return c.json({ ok: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed to update password";
-    const status = message.includes("not found") ? 404 : 400;
+    const status = message.includes("not found")
+      ? 404
+      : message.includes("incorrect")
+        ? 401
+        : 400;
     return c.json({ error: message }, status);
   }
 });

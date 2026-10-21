@@ -26,6 +26,7 @@ export function UserMenu({ user }: UserMenuProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
   const [view, setView] = useState<"menu" | "password">("menu");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
@@ -39,8 +40,9 @@ export function UserMenu({ user }: UserMenuProps) {
   });
 
   const passwordMutation = useMutation({
-    mutationFn: () => changeOwnPassword(password),
+    mutationFn: () => changeOwnPassword(currentPassword, password),
     onSuccess: () => {
+      setCurrentPassword("");
       setPassword("");
       setConfirm("");
       setFormError(null);
@@ -84,6 +86,7 @@ export function UserMenu({ user }: UserMenuProps) {
   function closeMenu() {
     setOpen(false);
     setView("menu");
+    setCurrentPassword("");
     setPassword("");
     setConfirm("");
     setFormError(null);
@@ -94,7 +97,10 @@ export function UserMenu({ user }: UserMenuProps) {
     setFormError(null);
   }
 
-  const passwordValid = password.trim().length >= 6 && password === confirm;
+  const passwordValid =
+    currentPassword.trim().length > 0 &&
+    password.trim().length >= 6 &&
+    password.trim() === confirm.trim();
   const busy = logoutMutation.isPending || passwordMutation.isPending;
 
   return (
@@ -157,7 +163,7 @@ export function UserMenu({ user }: UserMenuProps) {
                 if (!passwordValid || passwordMutation.isPending) {
                   return;
                 }
-                if (password !== confirm) {
+                if (password.trim() !== confirm.trim()) {
                   setFormError("Passwords do not match");
                   return;
                 }
@@ -165,6 +171,17 @@ export function UserMenu({ user }: UserMenuProps) {
               }}
             >
               <p className="user-menu-form-title">Change password</p>
+              <label className="user-menu-label">
+                Current password
+                <input
+                  type="password"
+                  value={currentPassword}
+                  autoComplete="current-password"
+                  required
+                  disabled={passwordMutation.isPending}
+                  onChange={(event) => setCurrentPassword(event.target.value)}
+                />
+              </label>
               <label className="user-menu-label">
                 New password
                 <input
@@ -197,6 +214,7 @@ export function UserMenu({ user }: UserMenuProps) {
                   disabled={passwordMutation.isPending}
                   onClick={() => {
                     setView("menu");
+                    setCurrentPassword("");
                     setPassword("");
                     setConfirm("");
                     setFormError(null);

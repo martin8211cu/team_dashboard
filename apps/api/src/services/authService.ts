@@ -84,6 +84,28 @@ export async function setMemberPassword(memberId: number, password: string): Pro
   await setPasswordHash(memberId, hash);
 }
 
+export async function changeMemberPassword(
+  memberId: number,
+  currentPassword: string,
+  newPassword: string,
+): Promise<void> {
+  const current = currentPassword.trim();
+  const next = newPassword.trim();
+  if (!current) {
+    throw new Error("Current password is required");
+  }
+  if (next.length < 6) {
+    throw new Error("Password must be at least 6 characters");
+  }
+
+  const passwordHash = await getPasswordHash(memberId);
+  if (!passwordHash || !(await verifyPassword(current, passwordHash))) {
+    throw new Error("Current password is incorrect");
+  }
+
+  await setMemberPassword(memberId, next);
+}
+
 export async function ensureAdminMember(): Promise<void> {
   const adminEmail = getAdminEmail();
   if (!adminEmail) {
@@ -117,7 +139,7 @@ export async function loginWithPassword(emailRaw: string, passwordRaw: string): 
   await deleteExpiredSessions();
 
   const email = emailRaw.trim().toLowerCase();
-  const password = passwordRaw;
+  const password = passwordRaw.trim();
 
   if (!email || !email.includes("@") || !password) {
     return { ok: false, status: 400, error: "Email and password are required" };

@@ -118,10 +118,16 @@ export async function setMemberPassword(id: number, password: string): Promise<v
   });
 }
 
-export async function changeOwnPassword(password: string): Promise<void> {
+export async function changeOwnPassword(
+  currentPassword: string,
+  password: string,
+): Promise<void> {
   await fetchJson("/api/auth/password", {
     method: "PATCH",
-    body: JSON.stringify({ password }),
+    body: JSON.stringify({
+      currentPassword: currentPassword.trim(),
+      password: password.trim(),
+    }),
   });
 }
 

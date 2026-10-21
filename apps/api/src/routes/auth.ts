@@ -1,18 +1,26 @@
 import { Hono } from "hono";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
-import type { AuthMeResponse, LoginResponse } from "@team-dashboard/shared";
+import type { AuthMeResponse, AuthUser, LoginResponse } from "@team-dashboard/shared";
 import {
   AUTH_COOKIE_NAME,
   getSessionCookieOptions,
   getSessionTtlDays,
 } from "../lib/authConfig";
+import { requireAuth } from "../middleware/requireAuth";
 import {
   getUserFromSessionToken,
   loginWithPassword,
   logoutSession,
+  setMemberPassword,
 } from "../services/authService";
 
-export const authRoutes = new Hono();
+type AuthRouteEnv = {
+  Variables: {
+    user: AuthUser;
+  };
+};
+
+export const authRoutes = new Hono<AuthRouteEnv>();
 
 function setSessionCookie(c: Parameters<typeof setCookie>[0], token: string): void {
   const maxAge = getSessionTtlDays() * 24 * 60 * 60;
@@ -71,4 +79,19 @@ authRoutes.post("/logout", async (c) => {
   await logoutSession(token);
   clearSessionCookie(c);
   return c.json({ ok: true });
+});
+
+authRoutes.patch("/password", requireAuth, async (c) => {
+  const user = c.get("user") as AuthUser;
+  const body = (await c.req.json().catch(() => ({}))) as { password?: unknown };
+  const password = typeof body.password === "string" ? body.password : "";
+
+  try {
+    await setMemberPassword(user.id, password);
+    return c.json({ ok: true });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Failed to update password";
+    const status = message.includes("not found") ? 404 : 400;
+    return c.json({ error: message }, status);
+  }
 });

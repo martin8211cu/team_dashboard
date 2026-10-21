@@ -23,6 +23,7 @@ import type {
   UpdateTeamMemberInput,
 } from "@team-dashboard/shared";
 import { accumulateByAltenAssignees } from "@team-dashboard/shared";
+import { apiUrl } from "./apiBase";
 
 export {
   summarizeSprintMetrics,
@@ -41,8 +42,8 @@ export class ApiError extends Error {
   }
 }
 
-async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(url, {
+async function fetchJson<T>(path: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(apiUrl(path), {
     credentials: "include",
     ...init,
     headers: {
@@ -65,8 +66,8 @@ function parseContentDispositionFilename(header: string | null): string | null {
   return match?.[1] ?? null;
 }
 
-async function downloadExport(url: string): Promise<void> {
-  const res = await fetch(url, { credentials: "include" });
+async function downloadExport(path: string): Promise<void> {
+  const res = await fetch(apiUrl(path), { credentials: "include" });
   if (!res.ok) {
     const body = (await res.json().catch(() => ({}))) as JiraErrorResponse;
     throw new ApiError(body.message ?? body.error ?? `Export failed (${res.status})`, res.status);
@@ -91,7 +92,7 @@ export async function fetchHealth(): Promise<HealthResponse> {
 }
 
 export async function fetchAuthMe(): Promise<AuthUser | null> {
-  const res = await fetch("/api/auth/me", { credentials: "include" });
+  const res = await fetch(apiUrl("/api/auth/me"), { credentials: "include" });
   if (res.status === 401) {
     return null;
   }
@@ -275,7 +276,9 @@ export async function fetchRetroSessions(): Promise<RetroSessionSummary[]> {
 }
 
 export async function fetchRetroBySprint(sprintNumber: number): Promise<RetroSessionSummary | null> {
-  const res = await fetch(`/api/retros/by-sprint/${sprintNumber}`, { credentials: "include" });
+  const res = await fetch(apiUrl(`/api/retros/by-sprint/${sprintNumber}`), {
+    credentials: "include",
+  });
   if (res.status === 404) {
     return null;
   }

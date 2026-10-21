@@ -1,0 +1,24 @@
+{
+  "name": "@team-dashboard/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "migrate": "bun run scripts/run-migrate.ts",
+    "seed": "bun run scripts/run-seed.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "knex": "^3.1.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.21",
+    "@types/node": "^24.3.1",
+    "@types/pg": "^8.15.5",
+    "typescript": "^5.9.2"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "project": "DEMO",
+  "minSprintNumber": 1,
+  "epicsSummaryContains": "Platform",
+  "agileMetrics": {
+    "cycleStartStatus": "To Do",
+    "blockedStatus": "Blocked",
+    "refinementStatus": "In Progress"
+  }
+}

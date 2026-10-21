@@ -1,0 +1,23 @@
+{
+  "name": "@team-dashboard/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "browser": "./src/browser.ts",
+      "default": "./src/index.ts"
+    },
+    "./browser": "./src/browser.ts",
+    "./jira": "./src/jira/index.ts",
+    "./metrics": "./src/metrics/index.ts",
+    "./config": "./src/config/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "typescript": "^5.9.2"
+  }
+}

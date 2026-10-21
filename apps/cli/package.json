@@ -1,0 +1,22 @@
+{
+  "name": "@team-dashboard/cli",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "export:tasks": "bun run src/exportAltenTasks.ts",
+    "export:sprint": "bun run src/exportSprintMetrics.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@team-dashboard/db": "workspace:*",
+    "@team-dashboard/export": "workspace:*",
+    "@team-dashboard/shared": "workspace:*",
+    "dotenv": "^16.6.1"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.21",
+    "@types/node": "^24.3.1",
+    "typescript": "^5.9.2"
+  }
+}

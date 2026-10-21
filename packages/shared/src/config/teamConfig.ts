@@ -51,6 +51,75 @@ export function loadDefaultTeamSettings(): TeamSettings {
   return loadTeamSettings(configPath);
 }
 
+function readOptionalInt(name: string): number | undefined {
+  const raw = process.env[name]?.trim();
+  if (!raw) {
+    return undefined;
+  }
+  const parsed = Number.parseInt(raw, 10);
+  if (!Number.isFinite(parsed)) {
+    throw new Error(`${name} must be an integer`);
+  }
+  return parsed;
+}
+
+/** Team settings from env when `TEAM_PROJECT` is set; otherwise null. */
+export function loadTeamSettingsFromEnv(): TeamSettings | null {
+  const project = process.env.TEAM_PROJECT?.trim();
+  if (!project) {
+    return null;
+  }
+
+  const settings: TeamSettings = { project };
+
+  const minSprintNumber = readOptionalInt("TEAM_MIN_SPRINT_NUMBER");
+  if (minSprintNumber != null) {
+    settings.minSprintNumber = minSprintNumber;
+  }
+
+  const epicsSummaryContains = process.env.TEAM_EPICS_SUMMARY_CONTAINS?.trim();
+  if (epicsSummaryContains) {
+    settings.epicsSummaryContains = epicsSummaryContains;
+  }
+
+  const boardId = readOptionalInt("TEAM_BOARD_ID");
+  if (boardId != null) {
+    settings.boardId = boardId;
+  }
+
+  const agileMetrics: Partial<AgileMetricsConfig> = {};
+  const cycleStartStatus = process.env.TEAM_CYCLE_START_STATUS?.trim();
+  if (cycleStartStatus) {
+    agileMetrics.cycleStartStatus = cycleStartStatus;
+  }
+  const blockedStatus = process.env.TEAM_BLOCKED_STATUS?.trim();
+  if (blockedStatus) {
+    agileMetrics.blockedStatus = blockedStatus;
+  }
+  const refinementStatus = process.env.TEAM_REFINEMENT_STATUS?.trim();
+  if (refinementStatus) {
+    agileMetrics.refinementStatus = refinementStatus;
+  }
+  if (Object.keys(agileMetrics).length > 0) {
+    settings.agileMetrics = agileMetrics;
+  }
+
+  return settings;
+}
+
+/** Env (`TEAM_PROJECT`) → file (`TEAM_CONFIG_PATH`) → bundled example.json */
+export function resolveTeamSettings(): TeamSettings {
+  const fromEnv = loadTeamSettingsFromEnv();
+  if (fromEnv) {
+    return fromEnv;
+  }
+  const configPath = process.env.TEAM_CONFIG_PATH?.trim();
+  if (configPath) {
+    return loadTeamSettings(configPath);
+  }
+  return loadDefaultTeamSettings();
+}
+
 export function resolveAgileMetrics(settings: TeamSettings): AgileMetricsConfig {
   return {
     ...DEFAULT_AGILE_METRICS,

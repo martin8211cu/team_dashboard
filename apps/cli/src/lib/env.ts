@@ -2,12 +2,7 @@ import { config } from "dotenv";
 import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  JiraClient,
-  loadDefaultTeamSettings,
-  loadTeamSettings,
-  type TeamConfig,
-} from "@team-dashboard/shared";
+import { JiraClient, resolveTeamSettings, type TeamConfig } from "@team-dashboard/shared";
 import { getActiveMemberNamesFromDb } from "./membersDb";
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), "../../../..");
@@ -43,8 +38,7 @@ export function createClientFromEnv(): JiraClient {
 }
 
 export async function getTeamConfig(): Promise<TeamConfig> {
-  const configPath = process.env.TEAM_CONFIG_PATH;
-  const settings = configPath ? loadTeamSettings(configPath) : loadDefaultTeamSettings();
+  const settings = resolveTeamSettings();
   const members = await getActiveMemberNamesFromDb();
 
   if (members.length === 0) {

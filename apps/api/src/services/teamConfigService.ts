@@ -1,15 +1,13 @@
 import {
-  loadDefaultTeamSettings,
-  loadTeamSettings,
   resolveAgileMetrics,
+  resolveTeamSettings,
   type TeamConfig,
   type TeamSettings,
 } from "@team-dashboard/shared";
 import { getActiveMemberNames } from "../db/members";
 
 function loadBaseSettings(): TeamSettings {
-  const configPath = process.env.TEAM_CONFIG_PATH;
-  return configPath ? loadTeamSettings(configPath) : loadDefaultTeamSettings();
+  return resolveTeamSettings();
 }
 
 export async function getTeamConfig(): Promise<TeamConfig> {

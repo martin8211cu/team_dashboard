@@ -1,6 +1,7 @@
 import { useRouteContext, useRouterState } from "@tanstack/react-router";
 import { HiBars3 } from "react-icons/hi2";
 import { resolvePageTitle } from "./nav-items";
+import { TeamMemberFilterToggle } from "../TeamMemberFilterContext";
 import { ThemeSelector } from "./ThemeSelector";
 import { UserMenu } from "./UserMenu";
 
@@ -28,6 +29,7 @@ export function TopNav({ onMenuToggle }: TopNavProps) {
         <h1 className="topnav-page-title">{pageTitle}</h1>
       </div>
       <div className="topnav-right">
+        <TeamMemberFilterToggle />
         <ThemeSelector />
         {authUser && <UserMenu user={authUser} />}
       </div>

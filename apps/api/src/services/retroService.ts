@@ -7,6 +7,7 @@ import type {
   RetroReaction,
   RetroSessionDetail,
   RetroSessionSummary,
+  RetroWritingTimer,
 } from "@team-dashboard/shared";
 import {
   clearCardReaction,
@@ -25,8 +26,10 @@ import {
   listParticipants,
   listReactionSummariesForSession,
   listRetroSessions,
+  RETRO_WRITING_TIMER_DURATION_SEC,
   setCardReaction,
   setRetroSessionStatus,
+  updateWritingTimer,
   type CardReactionSummary,
   type RetroCardRow,
   type RetroSessionRow,
@@ -95,6 +98,27 @@ function tsIso(value: Date | string | null): string | null {
   return value instanceof Date ? value.toISOString() : value;
 }
 
+function writingTimerRemainingSeconds(row: RetroSessionRow): number {
+  const stored =
+    row.writing_timer_seconds_left ?? RETRO_WRITING_TIMER_DURATION_SEC;
+  if (row.writing_timer_started_at == null) {
+    return stored;
+  }
+  const startedMs = new Date(row.writing_timer_started_at).getTime();
+  const elapsedSec = Math.floor((Date.now() - startedMs) / 1000);
+  return Math.max(0, stored - elapsedSec);
+}
+
+function writingTimerFromRow(row: RetroSessionRow): RetroWritingTimer {
+  const running = row.writing_timer_started_at != null;
+  return {
+    durationSeconds: RETRO_WRITING_TIMER_DURATION_SEC,
+    remainingSeconds: writingTimerRemainingSeconds(row),
+    running,
+    startedAt: running ? tsIso(row.writing_timer_started_at) : null,
+  };
+}
+
 async function toSummary(
   row: RetroSessionRow,
   counts?: { participant_count: number; card_count: number },
@@ -109,7 +133,19 @@ async function toSummary(
     closedAt: tsIso(row.closed_at),
     participantCount: resolved.participant_count,
     cardCount: resolved.card_count,
+    writingTimer: writingTimerFromRow(row),
   };
+}
+
+async function assertAdminOpenSession(id: number, user: AuthUser): Promise<RetroSessionRow> {
+  if (user.role !== "admin") {
+    throw new RetroError("Admin role required", 403);
+  }
+  const session = await requireSession(id);
+  if (session.status !== "open") {
+    throw new RetroError("Session must be open", 400);
+  }
+  return session;
 }
 
 function emptyReactions(): Pick<RetroCard, "likeCount" | "dislikeCount" | "myReaction"> {
@@ -248,6 +284,50 @@ export async function reopenSession(id: number, user: AuthUser): Promise<RetroSe
   }
   await requireSession(id);
   const updated = await setRetroSessionStatus(id, "open");
+  return toSummary(updated!);
+}
+
+export async function startWritingTimer(
+  id: number,
+  user: AuthUser,
+): Promise<RetroSessionSummary> {
+  const session = await assertAdminOpenSession(id, user);
+  if (session.writing_timer_started_at != null) {
+    return toSummary(session);
+  }
+  const remaining = writingTimerRemainingSeconds(session);
+  const updated = await updateWritingTimer(id, {
+    writing_timer_seconds_left: remaining,
+    writing_timer_started_at: new Date().toISOString(),
+  });
+  return toSummary(updated!);
+}
+
+export async function stopWritingTimer(
+  id: number,
+  user: AuthUser,
+): Promise<RetroSessionSummary> {
+  const session = await assertAdminOpenSession(id, user);
+  if (session.writing_timer_started_at == null) {
+    return toSummary(session);
+  }
+  const remaining = writingTimerRemainingSeconds(session);
+  const updated = await updateWritingTimer(id, {
+    writing_timer_seconds_left: remaining,
+    writing_timer_started_at: null,
+  });
+  return toSummary(updated!);
+}
+
+export async function resetWritingTimer(
+  id: number,
+  user: AuthUser,
+): Promise<RetroSessionSummary> {
+  await assertAdminOpenSession(id, user);
+  const updated = await updateWritingTimer(id, {
+    writing_timer_seconds_left: RETRO_WRITING_TIMER_DURATION_SEC,
+    writing_timer_started_at: null,
+  });
   return toSummary(updated!);
 }
 

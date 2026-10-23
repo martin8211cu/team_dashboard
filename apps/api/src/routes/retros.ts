@@ -17,6 +17,9 @@ import {
   listSessions,
   removeCard,
   reopenSession,
+  resetWritingTimer,
+  startWritingTimer,
+  stopWritingTimer,
   toggleCardReaction,
 } from "../services/retroService";
 
@@ -113,6 +116,45 @@ retroRoutes.post("/:id/reopen", async (c) => {
   }
   try {
     return c.json(await reopenSession(id, getUser(c)));
+  } catch (err) {
+    const { error, status } = handleRetroError(err);
+    return c.json({ error }, status);
+  }
+});
+
+retroRoutes.post("/:id/writing-timer/start", async (c) => {
+  const id = Number.parseInt(c.req.param("id"), 10);
+  if (Number.isNaN(id)) {
+    return c.json({ error: "Invalid id" }, 400);
+  }
+  try {
+    return c.json(await startWritingTimer(id, getUser(c)));
+  } catch (err) {
+    const { error, status } = handleRetroError(err);
+    return c.json({ error }, status);
+  }
+});
+
+retroRoutes.post("/:id/writing-timer/stop", async (c) => {
+  const id = Number.parseInt(c.req.param("id"), 10);
+  if (Number.isNaN(id)) {
+    return c.json({ error: "Invalid id" }, 400);
+  }
+  try {
+    return c.json(await stopWritingTimer(id, getUser(c)));
+  } catch (err) {
+    const { error, status } = handleRetroError(err);
+    return c.json({ error }, status);
+  }
+});
+
+retroRoutes.post("/:id/writing-timer/reset", async (c) => {
+  const id = Number.parseInt(c.req.param("id"), 10);
+  if (Number.isNaN(id)) {
+    return c.json({ error: "Invalid id" }, 400);
+  }
+  try {
+    return c.json(await resetWritingTimer(id, getUser(c)));
   } catch (err) {
     const { error, status } = handleRetroError(err);
     return c.json({ error }, status);

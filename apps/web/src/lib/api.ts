@@ -325,6 +325,18 @@ export async function reopenRetroSession(id: number): Promise<RetroSessionSummar
   return fetchJson(`/api/retros/${id}/reopen`, { method: "POST" });
 }
 
+export async function startRetroWritingTimer(id: number): Promise<RetroSessionSummary> {
+  return fetchJson(`/api/retros/${id}/writing-timer/start`, { method: "POST" });
+}
+
+export async function stopRetroWritingTimer(id: number): Promise<RetroSessionSummary> {
+  return fetchJson(`/api/retros/${id}/writing-timer/stop`, { method: "POST" });
+}
+
+export async function resetRetroWritingTimer(id: number): Promise<RetroSessionSummary> {
+  return fetchJson(`/api/retros/${id}/writing-timer/reset`, { method: "POST" });
+}
+
 export async function createRetroCard(
   sessionId: number,
   input: CreateRetroCardInput,

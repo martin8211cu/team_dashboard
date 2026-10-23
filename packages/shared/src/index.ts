@@ -17,6 +17,7 @@ export type {
   RetroSessionStatus,
   RetroColumn,
   RetroReaction,
+  RetroWritingTimer,
   RetroSessionSummary,
   RetroParticipant,
   RetroCard,

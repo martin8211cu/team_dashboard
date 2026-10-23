@@ -98,6 +98,16 @@ export type RetroColumn = "went_well" | "needs_improvement" | "action_items";
 
 export type RetroReaction = "like" | "dislike";
 
+export type RetroWritingTimer = {
+  /** Fixed duration for this phase (seconds). */
+  durationSeconds: number;
+  /** Seconds left when stopped, or baseline when running. */
+  remainingSeconds: number;
+  running: boolean;
+  /** Set while running so clients can tick locally between polls. */
+  startedAt: string | null;
+};
+
 export type RetroSessionSummary = {
   id: number;
   sprintNumber: number;
@@ -107,6 +117,7 @@ export type RetroSessionSummary = {
   closedAt: string | null;
   participantCount: number;
   cardCount: number;
+  writingTimer: RetroWritingTimer;
 };
 
 export type RetroParticipant = {

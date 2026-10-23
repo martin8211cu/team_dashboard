@@ -4,6 +4,8 @@ export type RetroSessionStatus = "open" | "closed";
 export type RetroColumn = "went_well" | "needs_improvement" | "action_items";
 export type RetroReaction = "like" | "dislike";
 
+export const RETRO_WRITING_TIMER_DURATION_SEC = 180;
+
 export type RetroSessionRow = {
   id: number;
   sprint_number: number;
@@ -11,6 +13,8 @@ export type RetroSessionRow = {
   created_by: number;
   created_at: Date | string;
   closed_at: Date | string | null;
+  writing_timer_seconds_left: number;
+  writing_timer_started_at: Date | string | null;
 };
 
 export type RetroParticipantRow = {
@@ -83,10 +87,21 @@ export async function setRetroSessionStatus(
   if (status === "closed") {
     await getDb()("retro_sessions")
       .where({ id })
-      .update({ status, closed_at: getDb().fn.now() });
+      .update({ status, closed_at: getDb().fn.now(), writing_timer_started_at: null });
   } else {
     await getDb()("retro_sessions").where({ id }).update({ status, closed_at: null });
   }
+  return getRetroSessionById(id);
+}
+
+export async function updateWritingTimer(
+  id: number,
+  patch: {
+    writing_timer_seconds_left: number;
+    writing_timer_started_at: Date | string | null;
+  },
+): Promise<RetroSessionRow | null> {
+  await getDb()("retro_sessions").where({ id }).update(patch);
   return getRetroSessionById(id);
 }
 

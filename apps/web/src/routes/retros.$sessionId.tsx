@@ -1,7 +1,13 @@
 import { createFileRoute, Link, useRouteContext } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import type { RetroCard, RetroColumn, RetroReaction } from "@team-dashboard/shared";
+import { useEffect, useRef, useState } from "react";
+import type {
+  RetroCard,
+  RetroColumn,
+  RetroReaction,
+  RetroSessionSummary,
+  RetroWritingTimer,
+} from "@team-dashboard/shared";
 import { HiHandThumbDown, HiHandThumbUp, HiShare } from "react-icons/hi2";
 import {
   closeRetroSession,
@@ -10,6 +16,9 @@ import {
   fetchRetroSession,
   joinRetroSession,
   reopenRetroSession,
+  resetRetroWritingTimer,
+  startRetroWritingTimer,
+  stopRetroWritingTimer,
   toggleRetroCardReaction,
   updateRetroCard,
 } from "../lib/api";
@@ -28,6 +37,146 @@ const COLUMNS: { key: RetroColumn; title: string }[] = [
 
 function sessionShareUrl(sessionId: number): string {
   return `${window.location.origin}/retros/${sessionId}`;
+}
+
+function formatWritingTimer(seconds: number): string {
+  const clamped = Math.max(0, seconds);
+  const minutes = Math.floor(clamped / 60);
+  const secs = clamped % 60;
+  return `${minutes}:${secs.toString().padStart(2, "0")}`;
+}
+
+function useWritingTimerDisplay(timer: RetroWritingTimer): number {
+  const [displaySeconds, setDisplaySeconds] = useState(timer.remainingSeconds);
+  const syncRef = useRef({
+    remaining: timer.remainingSeconds,
+    syncedAt: Date.now(),
+  });
+
+  useEffect(() => {
+    syncRef.current = {
+      remaining: timer.remainingSeconds,
+      syncedAt: Date.now(),
+    };
+    setDisplaySeconds(timer.remainingSeconds);
+  }, [timer.remainingSeconds, timer.running, timer.startedAt]);
+
+  useEffect(() => {
+    if (!timer.running) {
+      return;
+    }
+    const id = window.setInterval(() => {
+      const { remaining, syncedAt } = syncRef.current;
+      const elapsed = Math.floor((Date.now() - syncedAt) / 1000);
+      setDisplaySeconds(Math.max(0, remaining - elapsed));
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [timer.running, timer.startedAt]);
+
+  return displaySeconds;
+}
+
+function RetroWritingTimerPanel({
+  sessionId,
+  timer,
+  isAdmin,
+  onError,
+}: {
+  sessionId: number;
+  timer: RetroWritingTimer;
+  isAdmin: boolean;
+  onError: (message: string | null) => void;
+}) {
+  const queryClient = useQueryClient();
+  const displaySeconds = useWritingTimerDisplay(timer);
+
+  const mergeSession = (updated: RetroSessionSummary) => {
+    queryClient.setQueryData(
+      ["retro", sessionId],
+      (old: Awaited<ReturnType<typeof fetchRetroSession>> | undefined) =>
+        old ? { ...old, session: updated } : old,
+    );
+  };
+
+  const startMutation = useMutation({
+    mutationFn: () => startRetroWritingTimer(sessionId),
+    onSuccess: (session) => {
+      onError(null);
+      mergeSession(session);
+    },
+    onError: (err: Error) => onError(err.message),
+  });
+
+  const stopMutation = useMutation({
+    mutationFn: () => stopRetroWritingTimer(sessionId),
+    onSuccess: (session) => {
+      onError(null);
+      mergeSession(session);
+    },
+    onError: (err: Error) => onError(err.message),
+  });
+
+  const resetMutation = useMutation({
+    mutationFn: () => resetRetroWritingTimer(sessionId),
+    onSuccess: (session) => {
+      onError(null);
+      mergeSession(session);
+    },
+    onError: (err: Error) => onError(err.message),
+  });
+
+  const pending =
+    startMutation.isPending || stopMutation.isPending || resetMutation.isPending;
+
+  return (
+    <section
+      className={`retro-writing-timer${timer.running ? " is-running" : ""}`}
+      aria-label="Card writing timer"
+    >
+      <div className="retro-writing-timer-main">
+        <p className="retro-writing-timer-label">
+          Tiempo para escribir tarjetas ({formatWritingTimer(timer.durationSeconds)})
+        </p>
+        <p className="retro-writing-timer-clock" aria-live="polite">
+          {formatWritingTimer(displaySeconds)}
+        </p>
+        <p className="meta-muted retro-writing-timer-hint">
+          Solo informativo — todos pueden añadir tarjetas en cualquier momento.
+        </p>
+      </div>
+      {isAdmin && (
+        <div className="retro-writing-timer-actions">
+          {!timer.running ? (
+            <button
+              type="button"
+              className="sprint-btn sprint-btn-primary"
+              disabled={pending}
+              onClick={() => startMutation.mutate()}
+            >
+              Iniciar
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="sprint-btn sprint-btn-secondary"
+              disabled={pending}
+              onClick={() => stopMutation.mutate()}
+            >
+              Detener
+            </button>
+          )}
+          <button
+            type="button"
+            className="sprint-btn sprint-btn-secondary"
+            disabled={pending}
+            onClick={() => resetMutation.mutate()}
+          >
+            Reiniciar
+          </button>
+        </div>
+      )}
+    </section>
+  );
 }
 
 function ShareSessionButton({
@@ -236,6 +385,15 @@ function RetroBoardPage() {
       </div>
 
       {error && <p className="alert">{error}</p>}
+
+      {isOpen && (
+        <RetroWritingTimerPanel
+          sessionId={sessionId}
+          timer={session.writingTimer}
+          isAdmin={isAdmin}
+          onError={setError}
+        />
+      )}
 
       <div className="retro-board">
         {COLUMNS.map((column) => (

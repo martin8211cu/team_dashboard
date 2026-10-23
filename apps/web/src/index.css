@@ -2782,6 +2782,52 @@ h3 {
   gap: 1rem;
 }
 
+.retro-writing-timer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+}
+
+.retro-writing-timer.is-running {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border-subtle));
+}
+
+.retro-writing-timer-main {
+  min-width: min(100%, 14rem);
+}
+
+.retro-writing-timer-label {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.retro-writing-timer-clock {
+  margin: 0.15rem 0 0;
+  font-size: 2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
+.retro-writing-timer-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.8125rem;
+}
+
+.retro-writing-timer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .retro-board-header {
   display: flex;
   flex-wrap: wrap;

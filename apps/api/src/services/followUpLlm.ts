@@ -93,7 +93,53 @@ Rules: do not invent facts; do not invent numeric scores; reply with the notes t
   return generateText(prompt);
 }
 
-export async function generateMonthlyReportMarkdown(input: {
+function splitBilingualMarkdown(content: string): { contentMdEs: string; contentMdEn: string } {
+  const trimmed = content.trim();
+  const enHeader = trimmed.search(/^#\s+Monthly 1:1 Summary/im);
+  if (enHeader > 0) {
+    let es = trimmed.slice(0, enHeader).trim();
+    es = es.replace(/\n---\s*$/, "").trim();
+    const en = trimmed.slice(enHeader).trim();
+    return { contentMdEs: es, contentMdEn: en };
+  }
+  return { contentMdEs: trimmed, contentMdEn: "" };
+}
+
+function parseLocalesJson(raw: string): { contentMdEs: string; contentMdEn: string } | null {
+  const cleaned = raw
+    .trim()
+    .replace(/^```(?:json)?\s*/i, "")
+    .replace(/\s*```$/i, "")
+    .trim();
+  try {
+    const parsed = JSON.parse(cleaned) as {
+      contentMdEs?: unknown;
+      contentMdEn?: unknown;
+      es?: unknown;
+      en?: unknown;
+    };
+    const contentMdEs =
+      typeof parsed.contentMdEs === "string"
+        ? parsed.contentMdEs
+        : typeof parsed.es === "string"
+          ? parsed.es
+          : null;
+    const contentMdEn =
+      typeof parsed.contentMdEn === "string"
+        ? parsed.contentMdEn
+        : typeof parsed.en === "string"
+          ? parsed.en
+          : null;
+    if (contentMdEs == null || contentMdEn == null) {
+      return null;
+    }
+    return { contentMdEs: contentMdEs.trim(), contentMdEn: contentMdEn.trim() };
+  } catch {
+    return null;
+  }
+}
+
+export async function generateMonthlyReportLocales(input: {
   period: string;
   teamLabel: string;
   techLead: string;
@@ -118,7 +164,7 @@ export async function generateMonthlyReportMarkdown(input: {
     } | null;
     agreements: Array<{ description: string; status: string; notes: string }>;
   }>;
-}): Promise<string> {
+}): Promise<{ contentMdEs: string; contentMdEn: string }> {
   const completed = input.sessions.length;
   const payload = JSON.stringify(input.sessions, null, 2);
 
@@ -133,9 +179,9 @@ Metadatos:
 Datos de sesiones (JSON):
 ${payload}
 
-Debes producir UN solo documento Markdown con DOS bloques concatenados:
+Debes producir DOS versiones del mismo informe (mismo contenido, idiomas distintos).
 
-1) Español con exactamente esta estructura de secciones (títulos ##):
+Español (contentMdEs) con exactamente esta estructura Markdown:
 # Resumen general de 1:1 mensuales — ${input.period}
 **Equipo:** ...
 **Tech Lead:** ...
@@ -153,8 +199,7 @@ luego tabla Estado general por colaborador
 ## Apoyos solicitados a BM / Competence Manager
 ## Próximos pasos
 
-2) Separador ---
-luego el mismo contenido en inglés con títulos:
+Inglés (contentMdEn) con:
 # Monthly 1:1 Summary — ${input.period}
 ## Month snapshot
 ## Morale and well-being
@@ -167,7 +212,23 @@ Reglas:
 - Sintetiza temas recurrentes sin listar tickets operativos en exceso
 - No inventes colaboradores ni datos ausentes
 - Si no hay riesgos, dilo explícitamente
-- Responde SOLO el markdown final, sin preámbulo`;
+- Responde SOLO un JSON válido (sin fences markdown) con esta forma exacta:
+{"contentMdEs":"...markdown español...","contentMdEn":"...markdown inglés..."}
+- Escapa correctamente saltos de línea dentro de los strings JSON`;
 
-  return generateText(prompt);
+  const raw = await generateText(prompt);
+  const parsed = parseLocalesJson(raw);
+  if (parsed && parsed.contentMdEs && parsed.contentMdEn) {
+    return parsed;
+  }
+
+  // Fallback: model returned concatenated bilingual markdown
+  const split = splitBilingualMarkdown(raw);
+  if (!split.contentMdEs.trim()) {
+    throw new FollowUpLlmError("Gemini report missing Spanish content", 502);
+  }
+  if (!split.contentMdEn.trim()) {
+    throw new FollowUpLlmError("Gemini report missing English content", 502);
+  }
+  return split;
 }

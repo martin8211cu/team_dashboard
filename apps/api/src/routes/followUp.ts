@@ -3,6 +3,7 @@ import type {
   AuthUser,
   CreateFollowUpSessionInput,
   FollowUpAssistInput,
+  UpdateFollowUpReportInput,
   UpdateFollowUpSessionInput,
   UpsertFollowUpAgreementsInput,
   UpsertFollowUpEvaluationInput,
@@ -15,7 +16,9 @@ import {
   generateReport,
   getPeriodOverview,
   getReport,
+  getReportPdf,
   getSessionDetail,
+  updateReport,
   updateSession,
   upsertAgreements,
   upsertEvaluation,
@@ -148,6 +151,35 @@ followUpRoutes.get("/reports/:period", async (c) => {
   const period = c.req.param("period");
   try {
     return c.json(await getReport(period, getUser(c)));
+  } catch (err) {
+    const { error, status } = handleError(err);
+    return c.json({ error }, status);
+  }
+});
+
+followUpRoutes.patch("/reports/:period", async (c) => {
+  const period = c.req.param("period");
+  const body = (await c.req.json().catch(() => ({}))) as UpdateFollowUpReportInput;
+  try {
+    return c.json(await updateReport(period, body, getUser(c)));
+  } catch (err) {
+    const { error, status } = handleError(err);
+    return c.json({ error }, status);
+  }
+});
+
+followUpRoutes.get("/reports/:period/pdf/:lang", async (c) => {
+  const period = c.req.param("period");
+  const lang = c.req.param("lang");
+  try {
+    const { buffer, filename } = await getReportPdf(period, lang, getUser(c));
+    return new Response(new Uint8Array(buffer), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="${filename}"`,
+      },
+    });
   } catch (err) {
     const { error, status } = handleError(err);
     return c.json({ error }, status);

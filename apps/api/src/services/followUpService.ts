@@ -8,9 +8,11 @@ import type {
   FollowUpMonthlyReport,
   FollowUpOverallStatus,
   FollowUpPeriodOverview,
+  FollowUpReportLang,
   FollowUpSectionKey,
   FollowUpSessionDetail,
   FollowUpSessionSummary,
+  UpdateFollowUpReportInput,
   UpdateFollowUpSessionInput,
   UpsertFollowUpAgreementsInput,
   UpsertFollowUpEvaluationInput,
@@ -23,11 +25,12 @@ import {
 import { resolveTeamSettings } from "@team-dashboard/shared";
 import { getAdminEmail } from "../lib/authConfig";
 import { listMembers, getMemberById } from "../db/members";
+import { markdownToPdfBuffer } from "../lib/markdownPdf";
 import * as followUpDb from "../db/followUp";
 import {
   assistFromAnswers,
   FollowUpLlmError,
-  generateMonthlyReportMarkdown,
+  generateMonthlyReportLocales,
   getGeminiModelName,
 } from "./followUpLlm";
 
@@ -127,10 +130,13 @@ function toReport(row: followUpDb.FollowUpMonthlyReportRow): FollowUpMonthlyRepo
   return {
     id: row.id,
     period: row.period,
-    contentMd: row.content_md,
+    contentMdEs: row.content_md_es ?? "",
+    contentMdEn: row.content_md_en ?? "",
     model: row.model,
     generatedBy: row.generated_by,
     generatedAt: followUpDb.toIso(row.generated_at)!,
+    updatedBy: row.updated_by ?? null,
+    updatedAt: followUpDb.toIso(row.updated_at),
   };
 }
 
@@ -493,7 +499,7 @@ export async function generateReport(
   }));
 
   try {
-    const contentMd = await generateMonthlyReportMarkdown({
+    const locales = await generateMonthlyReportLocales({
       period,
       teamLabel: team.project || "Development",
       techLead: user.name,
@@ -501,7 +507,8 @@ export async function generateReport(
     });
     const row = await followUpDb.upsertMonthlyReport({
       period,
-      contentMd,
+      contentMdEs: locales.contentMdEs,
+      contentMdEn: locales.contentMdEn,
       model: getGeminiModelName(),
       generatedBy: user.id,
     });
@@ -512,4 +519,64 @@ export async function generateReport(
     }
     throw err;
   }
+}
+
+export async function updateReport(
+  periodRaw: string,
+  input: UpdateFollowUpReportInput,
+  user: AuthUser,
+): Promise<FollowUpMonthlyReport> {
+  requireAdmin(user);
+  const period = validatePeriod(periodRaw);
+  if (input.contentMdEs === undefined && input.contentMdEn === undefined) {
+    throw new FollowUpError("Provide contentMdEs and/or contentMdEn", 400);
+  }
+  if (input.contentMdEs !== undefined && typeof input.contentMdEs !== "string") {
+    throw new FollowUpError("contentMdEs must be a string", 400);
+  }
+  if (input.contentMdEn !== undefined && typeof input.contentMdEn !== "string") {
+    throw new FollowUpError("contentMdEn must be a string", 400);
+  }
+
+  const row = await followUpDb.updateMonthlyReportContent({
+    period,
+    contentMdEs: input.contentMdEs,
+    contentMdEn: input.contentMdEn,
+    updatedBy: user.id,
+  });
+  if (!row) {
+    throw new FollowUpError("Report not found", 404);
+  }
+  return toReport(row);
+}
+
+export async function getReportPdf(
+  periodRaw: string,
+  langRaw: string,
+  user: AuthUser,
+): Promise<{ buffer: Buffer; filename: string; lang: FollowUpReportLang }> {
+  requireAdmin(user);
+  const period = validatePeriod(periodRaw);
+  const lang = langRaw.trim().toLowerCase();
+  if (lang !== "es" && lang !== "en") {
+    throw new FollowUpError("lang must be es or en", 400);
+  }
+  const row = await followUpDb.getMonthlyReport(period);
+  if (!row) {
+    throw new FollowUpError("Report not found", 404);
+  }
+  const content = lang === "es" ? row.content_md_es : row.content_md_en;
+  if (!content?.trim()) {
+    throw new FollowUpError(`Report has no ${lang.toUpperCase()} content`, 400);
+  }
+  const title =
+    lang === "es"
+      ? `Resumen 1:1 ${period}`
+      : `1:1 Summary ${period}`;
+  const filename =
+    lang === "es"
+      ? `Resumen-1-1-${period}-BM-Competence-ES.pdf`
+      : `Summary-1-1-${period}-BM-Competence-EN.pdf`;
+  const buffer = await markdownToPdfBuffer(content, title);
+  return { buffer, filename, lang };
 }

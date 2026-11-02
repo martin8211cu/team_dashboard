@@ -61,10 +61,13 @@ export type FollowUpAgreementRow = {
 export type FollowUpMonthlyReportRow = {
   id: number;
   period: string;
-  content_md: string;
+  content_md_es: string;
+  content_md_en: string;
   model: string;
   generated_by: number;
   generated_at: Date | string;
+  updated_by: number | null;
+  updated_at: Date | string | null;
 };
 
 export function toIso(value: Date | string | null): string | null {
@@ -302,7 +305,8 @@ export async function getMonthlyReport(period: string): Promise<FollowUpMonthlyR
 
 export async function upsertMonthlyReport(input: {
   period: string;
-  contentMd: string;
+  contentMdEs: string;
+  contentMdEn: string;
   model: string;
   generatedBy: number;
 }): Promise<FollowUpMonthlyReportRow> {
@@ -311,18 +315,48 @@ export async function upsertMonthlyReport(input: {
     await getDb()("follow_up_monthly_reports")
       .where({ id: existing.id })
       .update({
-        content_md: input.contentMd,
+        content_md_es: input.contentMdEs,
+        content_md_en: input.contentMdEn,
         model: input.model,
         generated_by: input.generatedBy,
         generated_at: getDb().fn.now(),
+        updated_by: input.generatedBy,
+        updated_at: getDb().fn.now(),
       });
   } else {
     await getDb()("follow_up_monthly_reports").insert({
       period: input.period,
-      content_md: input.contentMd,
+      content_md_es: input.contentMdEs,
+      content_md_en: input.contentMdEn,
       model: input.model,
       generated_by: input.generatedBy,
+      updated_by: input.generatedBy,
+      updated_at: getDb().fn.now(),
     });
   }
   return (await getMonthlyReport(input.period))!;
+}
+
+export async function updateMonthlyReportContent(input: {
+  period: string;
+  contentMdEs?: string;
+  contentMdEn?: string;
+  updatedBy: number;
+}): Promise<FollowUpMonthlyReportRow | null> {
+  const existing = await getMonthlyReport(input.period);
+  if (!existing) {
+    return null;
+  }
+  const patch: Record<string, unknown> = {
+    updated_by: input.updatedBy,
+    updated_at: getDb().fn.now(),
+  };
+  if (input.contentMdEs !== undefined) {
+    patch.content_md_es = input.contentMdEs;
+  }
+  if (input.contentMdEn !== undefined) {
+    patch.content_md_en = input.contentMdEn;
+  }
+  await getDb()("follow_up_monthly_reports").where({ id: existing.id }).update(patch);
+  return getMonthlyReport(input.period);
 }

@@ -1,8 +1,14 @@
 import { Link, createFileRoute, useRouteContext } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import { formatPeriodLabel } from "@team-dashboard/shared";
-import { ApiError, fetchFollowUpReport, generateFollowUpReport } from "../lib/api";
+import { useEffect, useState } from "react";
+import { formatPeriodLabel, type FollowUpReportLang } from "@team-dashboard/shared";
+import {
+  ApiError,
+  downloadFollowUpReportPdf,
+  fetchFollowUpReport,
+  generateFollowUpReport,
+  updateFollowUpReport,
+} from "../lib/api";
 
 export const Route = createFileRoute("/follow-up/reports/$period")({
   component: FollowUpReportPage,
@@ -16,7 +22,10 @@ function FollowUpReportPage() {
     select: (ctx) => ctx.authUser?.role === "admin",
   });
   const [error, setError] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [lang, setLang] = useState<FollowUpReportLang>("es");
+  const [draftEs, setDraftEs] = useState("");
+  const [draftEn, setDraftEn] = useState("");
+  const [dirty, setDirty] = useState(false);
 
   const reportQuery = useQuery({
     queryKey: ["follow-up-report", period],
@@ -25,11 +34,50 @@ function FollowUpReportPage() {
     retry: false,
   });
 
+  useEffect(() => {
+    if (!reportQuery.data) {
+      return;
+    }
+    setDraftEs(reportQuery.data.contentMdEs);
+    setDraftEn(reportQuery.data.contentMdEn);
+    setDirty(false);
+  }, [reportQuery.data]);
+
   const generateMutation = useMutation({
     mutationFn: () => generateFollowUpReport(period),
     onSuccess: (report) => {
       setError(null);
       queryClient.setQueryData(["follow-up-report", period], report);
+    },
+    onError: (err: Error) => setError(err.message),
+  });
+
+  const saveMutation = useMutation({
+    mutationFn: () =>
+      updateFollowUpReport(period, {
+        contentMdEs: draftEs,
+        contentMdEn: draftEn,
+      }),
+    onSuccess: (report) => {
+      setError(null);
+      setDirty(false);
+      queryClient.setQueryData(["follow-up-report", period], report);
+    },
+    onError: (err: Error) => setError(err.message),
+  });
+
+  const pdfMutation = useMutation({
+    mutationFn: async (targetLang: FollowUpReportLang) => {
+      if (dirty) {
+        await updateFollowUpReport(period, {
+          contentMdEs: draftEs,
+          contentMdEn: draftEn,
+        }).then((report) => {
+          setDirty(false);
+          queryClient.setQueryData(["follow-up-report", period], report);
+        });
+      }
+      await downloadFollowUpReportPdf(period, targetLang);
     },
     onError: (err: Error) => setError(err.message),
   });
@@ -50,28 +98,15 @@ function FollowUpReportPage() {
     reportQuery.error instanceof ApiError &&
     reportQuery.error.status === 404;
 
-  async function downloadMd() {
-    const content = reportQuery.data?.contentMd;
-    if (!content) {
-      return;
-    }
-    const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `Summary-1-1-${period}-BM-Competence.md`;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+  const draft = lang === "es" ? draftEs : draftEn;
 
-  async function copyMd() {
-    const content = reportQuery.data?.contentMd;
-    if (!content) {
-      return;
+  function onDraftChange(value: string) {
+    setDirty(true);
+    if (lang === "es") {
+      setDraftEs(value);
+    } else {
+      setDraftEn(value);
     }
-    await navigator.clipboard.writeText(content);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   }
 
   return (
@@ -89,6 +124,14 @@ function FollowUpReportPage() {
             <p className="meta-line meta-muted">
               Model {reportQuery.data.model} · generated{" "}
               {new Date(reportQuery.data.generatedAt).toLocaleString("en-US")}
+              {reportQuery.data.updatedAt &&
+                reportQuery.data.updatedAt !== reportQuery.data.generatedAt && (
+                  <>
+                    {" "}
+                    · edited {new Date(reportQuery.data.updatedAt).toLocaleString("en-US")}
+                  </>
+                )}
+              {dirty && <> · unsaved changes</>}
             </p>
           )}
         </div>
@@ -97,7 +140,15 @@ function FollowUpReportPage() {
             type="button"
             className="sprint-btn sprint-btn-primary"
             disabled={generateMutation.isPending}
-            onClick={() => generateMutation.mutate()}
+            onClick={() => {
+              if (
+                dirty &&
+                !window.confirm("Regenerate will overwrite unsaved edits. Continue?")
+              ) {
+                return;
+              }
+              generateMutation.mutate();
+            }}
           >
             {generateMutation.isPending
               ? "Generating…"
@@ -109,17 +160,27 @@ function FollowUpReportPage() {
             <>
               <button
                 type="button"
-                className="sprint-btn sprint-btn-secondary"
-                onClick={() => void copyMd()}
+                className="sprint-btn sprint-btn-primary"
+                disabled={!dirty || saveMutation.isPending}
+                onClick={() => saveMutation.mutate()}
               >
-                {copied ? "Copied" : "Copy"}
+                {saveMutation.isPending ? "Saving…" : "Save"}
               </button>
               <button
                 type="button"
                 className="sprint-btn sprint-btn-secondary"
-                onClick={() => void downloadMd()}
+                disabled={pdfMutation.isPending || !draftEs.trim()}
+                onClick={() => pdfMutation.mutate("es")}
               >
-                Download .md
+                PDF ES
+              </button>
+              <button
+                type="button"
+                className="sprint-btn sprint-btn-secondary"
+                disabled={pdfMutation.isPending || !draftEn.trim()}
+                onClick={() => pdfMutation.mutate("en")}
+              >
+                PDF EN
               </button>
             </>
           )}
@@ -140,7 +201,45 @@ function FollowUpReportPage() {
         <p className="alert">{(reportQuery.error as Error).message}</p>
       )}
 
-      {reportQuery.data && <pre className="follow-up-report-md">{reportQuery.data.contentMd}</pre>}
+      {reportQuery.data && (
+        <>
+          <div className="follow-up-report-lang-tabs" role="tablist" aria-label="Report language">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={lang === "es"}
+              className={
+                lang === "es"
+                  ? "sprint-btn sprint-btn-primary"
+                  : "sprint-btn sprint-btn-secondary"
+              }
+              onClick={() => setLang("es")}
+            >
+              Español
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={lang === "en"}
+              className={
+                lang === "en"
+                  ? "sprint-btn sprint-btn-primary"
+                  : "sprint-btn sprint-btn-secondary"
+              }
+              onClick={() => setLang("en")}
+            >
+              English
+            </button>
+          </div>
+          <textarea
+            className="follow-up-report-editor"
+            value={draft}
+            onChange={(e) => onDraftChange(e.target.value)}
+            spellCheck={lang === "en"}
+            aria-label={lang === "es" ? "Spanish report markdown" : "English report markdown"}
+          />
+        </>
+      )}
     </div>
   );
 }

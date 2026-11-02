@@ -8,6 +8,7 @@ import type {
   FollowUpAssistResponse,
   FollowUpMonthlyReport,
   FollowUpPeriodOverview,
+  FollowUpReportLang,
   FollowUpSessionDetail,
   FollowUpSessionSummary,
   HealthResponse,
@@ -27,6 +28,7 @@ import type {
   SprintTasksResponse,
   SprintsResponse,
   TeamMember,
+  UpdateFollowUpReportInput,
   UpdateFollowUpSessionInput,
   UpdateTeamMemberInput,
   UpsertFollowUpAgreementsInput,
@@ -448,8 +450,25 @@ export async function fetchFollowUpReport(period: string): Promise<FollowUpMonth
   return fetchJson(`/api/follow-up/reports/${encodeURIComponent(period)}`);
 }
 
+export async function updateFollowUpReport(
+  period: string,
+  input: UpdateFollowUpReportInput,
+): Promise<FollowUpMonthlyReport> {
+  return fetchJson(`/api/follow-up/reports/${encodeURIComponent(period)}`, {
+    method: "PATCH",
+    body: JSON.stringify(input),
+  });
+}
+
 export async function generateFollowUpReport(period: string): Promise<FollowUpMonthlyReport> {
   return fetchJson(`/api/follow-up/reports/${encodeURIComponent(period)}/generate`, {
     method: "POST",
   });
+}
+
+export async function downloadFollowUpReportPdf(
+  period: string,
+  lang: FollowUpReportLang,
+): Promise<void> {
+  return downloadExport(`/api/follow-up/reports/${encodeURIComponent(period)}/pdf/${lang}`);
 }

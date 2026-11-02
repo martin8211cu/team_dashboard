@@ -1,0 +1,2600 @@
+{
+  "generatedAt": "2026-11-02T20:13:37.276Z",
+  "source": "evaluacion-rh/notas",
+  "sessions": [
+    {
+      "sourceFile": "2026-07-Diana.md",
+      "memberName": "Diana Hernández de León",
+      "period": "2026-07",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien en general, sin quejas"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, en general trabajo"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Si, es adecuada, a veces siento que no hay tanto"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, siento que hay buena quimica y trabajo"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Address Extration from documents"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Address Extration from documents"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "He aprendido muco del uso de agentes en AWS (Bedrock)"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Tiempos de entregas y calidad de entrgables"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Ser mas meticulosa en temas ed diseño"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": "aws (cloud)"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Siento que vamos bien, siempre pendiente de fechas y apoyando"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": "AWS, mejorar el ingles"
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": "Arquitecto"
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": "No tengo alguno"
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Definir 1-2"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Definir 1-2"
+      ]
+    },
+    {
+      "sourceFile": "2026-07-Edgardo.md",
+      "memberName": "Edgardo Balderas Morales",
+      "period": "2026-07",
+      "overallStatus": "excelente",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, sentimiento de bloqueo, por falta de informacion loque se traduce en lentitud"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "Curva de aprendizaje en nuevas funcionalidades (Apoyo en el equipo)"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Adecuada, poca saturacion temporal"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Esta bien, de acuerdo con las dinamicas"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Liderar el desattolo de una funcionalidad (Print rate)"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Calaculos de Print Rate"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Implementacion, nuevas funcionalidad, integraciones de herramientas para mejorar flujo de trabajo, uso de agentes de IA para reducir tiempo de analisis"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Comnicacion con equipo y Stake holders"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Analisis, reducir tiempos de analisis"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": "Consoliad perfil Full Stack, mongoDB"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Apoyo en la asignacion de tareas donde mejor se desepenan y evitar permanancia en zona de confort"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": "Sockets, Microfrontend, React Native"
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": "Cosolidar Senior en Full Stack, Arquitecto"
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": "Certificacion Scrum, curoso Prompt Engineering, aws developer, curso Github"
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Definir 1-2"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Definir 1-2"
+      ]
+    },
+    {
+      "sourceFile": "2026-07-Gio.md",
+      "memberName": "Eduardo Sanchez Lopez",
+      "period": "2026-07",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Muy bien despues del workshop, mejoro mas el ambiente, mas colaborativo y en confianza"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "Todavia hay lagunas de conocimiento en cuanto a funcionalidades, terminologias y procesos, quizas compartir mas documentacion funcional, hacer demostraciones de funcionalidades. Integrar agentes de IA para mejorar productividad"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Esta bien, siempre tengo algo que hacer sin sentir presion y me permite cumplir los tiempos de entrega"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Muy bien, nada que cambiar"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Resolucion de Bugs de DTP y Tracked Mail"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "DTP y Tracked Mail"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Un mes de mucho aprendisaje, ver fuera de la caja, mas alla e los requerimiento de alguna funcionalidad"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Comunicacion con el equipo y stake holders"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Me siento lento, quiero mejorar mis tiempos de analisis"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": "Promt Engeenring e integraciones en el flujo de trabajo"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Me siento extramadamente apoyado, te agredezco mucho"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": "IA"
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": "Lead"
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": "IA"
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Definir 1-2"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Definir 1-2"
+      ]
+    },
+    {
+      "sourceFile": "2026-07-Gustavo.md",
+      "memberName": "Gustavo Herrera Alonso",
+      "period": "2026-07",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Tranquilo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, todo bien"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Si, no he lleagdo a un punto de sobre esfuerzo"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "POr el momento todo bien, mantener la comunicacion, la cantidad de llamadas se me hace correcta"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Se logro terminar todo el trabajo en tienpo forma"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Resolucion de Bugs"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Controlar el tiempo, como mejorar la gestion de tiempo"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Terminar las tareas en tiempo y con calidad"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Motivacion"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": "Mejorar exposicion, evitar deambular cuando hago una demo"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Lo haces bastante bien, tienes bien centrado al equipo y aprovechando las areas ed conocimientos"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": "Graficos y aplicaciones escritorios, IA"
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": "Arquitecto"
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": "Certificacion en AWS Developer"
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Definir 1-2"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Definir 1-2"
+      ]
+    },
+    {
+      "sourceFile": "2026-07-Lalo.md",
+      "memberName": "Eduardo Moreno Lopez",
+      "period": "2026-07",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "En general bien, pequeños periodos de inactividad por falta de contenido de trabajo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "Nada en particular, complementar y mejorar detalles de requerimientos"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Si, quizas en algunos momentos poco contenido de trabajo"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "NO, va por buen camino, muy ameno"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "La modificacion de Banner details en DTP"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "La modificacion de Banner details en DTP, visualmente tuvo impacto favorable en la facilidad de uso. En tracked mail, las nuevas tarifas de 24 y 48 hora de delivery"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Proceso de trabajo en equipo, flujo de trabajo en equipo, metodologias agiles"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Entregas en tiempos los tickets asignados, calidad de entregables"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "La calidad de codigo, en estrucra"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": "Manejo de aws (cloud en general)"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Tengo todo el apoyo necesario, me siento apoyado"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": "AWs, Desarrollo Mobile"
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": "Lider"
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": "AWS (Cloud practitioner), Certificacion de Java"
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Definir 1-2"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Definir 1-2"
+      ]
+    },
+    {
+      "sourceFile": "2026-07-Ricardo.md",
+      "memberName": "Juan Gallegos Cardona",
+      "period": "2026-07",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, muy estable, manejando los temas personales sin que afecten el trabajo, contento con el avance"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No,sin bloqueo"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Si, siento que tengo capacidad para mas, tengo algunos tiempos de inactividad"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Todo bien, mejorar la estructura de stand up, establecer y mantener un formato, sobre todo con cliente"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "El desarrollo de envelops type, importacion de print rate"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "El desarrollo de envelops type (cliente satisfecho)"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Mas conocimiento sobre los servicios y su arquietectura."
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Entregables en tiempo y con calidad"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Constribuir mas con el equipo"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": "Ingles, comunicacion"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "En general estoy satisfecho con tu trabajo como lider"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": "Java, Angular a mayor nivel, AWS"
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": "Senior, Tech Lead"
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": "Certifiacion de AWS, OCP Java"
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Definir 1-2"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Definir 1-2"
+      ]
+    },
+    {
+      "sourceFile": "2026-07-Toni.md",
+      "memberName": "Francisco Antonio Garcia Quintana",
+      "period": "2026-07",
+      "overallStatus": "excelente",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Muy bien, quizas un poco lento"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "Buscar con quien resolver las dudas funcionales"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "\" Compartir carga de trabajo, quete liberes para mas tareas administrativas"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Incorporar retro alimentacion interna del equipo al final de sprint (kudos y oportunidades de mejora) preferentemente en español."
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Demo de DTP, mejoras en el ingles"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Guardado de Adrress Book, y Address Extraction from text"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "mas dominio en la funcionalidad de trackeing number, en DTP y RTS"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Cumpli con las tareas asignadas en tiempos y con calidad"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Reducir tiempo de analisis, tener mejor entendimiento para poder plantear dudas"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": "DevOps"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "No tengo ninguna queja, me siento muy apoyado, asingnando tareas de diferentes areas de conocimiento, ejemplo aws, web services"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": "Angular y DevOps"
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": "Arquitecto"
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": "Certificacion AWS"
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Definir 1-2"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Definir 1-2"
+      ]
+    },
+    {
+      "sourceFile": "2026-08-Diana.md",
+      "memberName": "Diana Hernández de León",
+      "period": "2026-08",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, contenta con los resultados"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "NO, solo, algunos comentarios en las historias que contradecian lo definido en los tickets"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Estuvo bien, nos quedo capacidad de trabajo"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Nada, todo bien"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Reports Enhacement"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Reports Enhacement"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Fue una buena experiencia, liderar la Epic de Reports Enhacement, me ayudo a menorar mis habilidades blandas"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Organicacion del trabajo"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "estimaciones mas acertadas"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": ""
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Lo haces muy bien, buen trabajo"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Seguimiento a su plan de desarrollo profesional"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Seguimiento a su plan de desarrollo profesional"
+      ]
+    },
+    {
+      "sourceFile": "2026-08-Edgardo.md",
+      "memberName": "Edgardo Balderas Morales",
+      "period": "2026-08",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien en general, aunque se pudo haber hecho mas"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "Solo he tenido un caso que me ha costado cerrar porque se involucran servicios que no tenemos acceso y no ha sido prioridad"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Apesar de la baja carga de trabajo, creo que se ha organizado muy bien para que todos estemos ocupado y las iniciativas que propones para nuestro desarrollo, son muy buenas"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Todo bien"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Aunque tuve pocas asignaciones, resolvi todas mis asignaciones"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "resolucion de errores"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Conocimiento de los flujos con Impress API"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Mejore mi flujo"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Agilidad en la comunicacion, externar dudas antes"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Se reviso el plan de crecimiento y se le dara seguimiento"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Se reviso el plan de crecimiento y se le dara seguimiento"
+      ]
+    },
+    {
+      "sourceFile": "2026-08-Gio.md",
+      "memberName": "Eduardo Sanchez Lopez",
+      "period": "2026-08",
+      "overallStatus": "excelente",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, tranquilo por momentos pero contento con el trabajo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, todo bien"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Bien,adecuada"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": ""
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Report Enhacement"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Report Enhacement"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Cada vez vamos aprendiendo mas del negocio"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Desaroolo del trabajo asignado, de buena calidad"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Proponer mejoras en la arquitectura existente"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": ""
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Bastante bien, siento que el equipo esta bastante comodo, en cuanto a comunicacion, nos sentimos cobijados"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "revisamos el plan de desarrollo profesional y le daremos seguimiento en el avance de aprendisaje"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "revisamos el plan de desarrollo profesional y le daremos seguimiento en el avance de aprendisaje"
+      ]
+    },
+    {
+      "sourceFile": "2026-08-Gustavo.md",
+      "memberName": "Gustavo Herrera Alonso",
+      "period": "2026-08",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien un poco vacio por la falta de contenido de trabajo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, todo bien"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Adecuada, varios momentos de inactividad"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Todo bien"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "HybridMail Enhacement"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "HybridMail Enhacement"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Liderar la epic de HybridMail, mejoro mis habilidades blandas, analisis y organizacion"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "El analisis y estimacion de los requerimientos"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Creo que puedo mejorar la organizacion, teniendo en cuenta la organizacion"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": ""
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Todo bien, quizas puedes tomar menos ticket para aprovechar nuestra capacidad de trabajo"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Seguimiento al plan de crecimiento profesional, el primer objetivo es AI Mster"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Seguimiento al plan de crecimiento profesional, el primer objetivo es AI Mster"
+      ]
+    },
+    {
+      "sourceFile": "2026-08-Lalo.md",
+      "memberName": "Eduardo Moreno Lopez",
+      "period": "2026-08",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien en general bien bastante productivo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "nada"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Leve, adecuada"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Todo bien"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Hybrid Mail, correcciones rate limits"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "rates Limits"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Aprendi de rates Limits"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Mejore la compresion de ticket y el analisis, redacte mejor el feedback a stackholder"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Leer mas documentacion, tener mas entendimiento general de las reglas de negocio"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": ""
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Nada negativo, muy buen trabajo como Lider"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": "1er martes de octubre"
+        }
+      ],
+      "agreements": []
+    },
+    {
+      "sourceFile": "2026-08-Ricardo.md",
+      "memberName": "Juan Gallegos Cardona",
+      "period": "2026-08",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Profesionalmente bien, en lo pesonal un poquito dolido por la perdida de una de mis mascotas"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, tuve buen avance"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Muy leve, he tenido disponibilidad"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Todo bien, me gusta la dinamica"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Resolucion de errores"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Resolucion de errores"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Mas entendimiento de las logicas de negocio"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Cumpli en tiempo y calidad las tareas signadas"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Tomar mas tareas de liderazgo"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": ""
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Muy contento con la forma que llevas el equipo"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Dar seguimiento al plan de desarrollo profesional, el objetivo es la certificacion Solution Arquitec de AWS"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Dar seguimiento al plan de desarrollo profesional, el objetivo es la certificacion Solution Arquitec de AWS"
+      ]
+    },
+    {
+      "sourceFile": "2026-08-Toni.md",
+      "memberName": "Francisco Antonio Garcia Quintana",
+      "period": "2026-08",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien en general, mas tranquilo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, he recibido el apoyo necesario, la comunicacion ha sido efectiva"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Estuvo relajada, por momentos falta de trabajo"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Todo bien, no cambiaria nada"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Resolucion de bugs"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Reduccion en los tiempos de entrega sin perder calidad en los entregables"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Mas entendimiento en las reglas de negocio"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Mejores practica para entender issues reportados, analisis profundo e impacto de las soluciones"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Documentar los hallazgos"
+        },
+        {
+          "key": "desempeno_habilidad",
+          "sectionKey": "desempeno",
+          "answerText": ""
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Lo estas haciendo muy bien como lider, muy contento, me siento muy apoyado"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Seguimiento al plan de desarrollo profesional, para la certifiacion Cloud Practitioner de AWS"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Seguimiento al plan de desarrollo profesional, para la certifiacion Cloud Practitioner de AWS"
+      ]
+    },
+    {
+      "sourceFile": "2026-09-Diana.md",
+      "memberName": "Diana Hernández de León",
+      "period": "2026-09",
+      "overallStatus": "excelente",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, bastante bien"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "Muchos tickets de dudas que conyevan mas tiempo de trabajo"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Ligera, estuvo tranquilo, solo correcciones"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, siento que estamos muy integrados"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "La capa binaria en la extraccion de textos en los pdfs"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "La capa binaria en la extraccion de textos en los pdfs"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Mas dominio en la extraccion de textos en documentos"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Entregas con calidad"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "La comunicacion, sobre todo el ingles"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Lo haces muy bien, buen trabajo"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Seguimiento a su plan de desarrollo profesional"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": "Comence clases de ingles y estudiar para la certificacion de aws con LLM y devops"
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Seguimiento a su plan de desarrollo profesional",
+        "Support needed: Comence clases de ingles y estudiar para la certificacion de aws con LLM y devops"
+      ]
+    },
+    {
+      "sourceFile": "2026-09-Edgardo.md",
+      "memberName": "Edgardo Balderas Morales",
+      "period": "2026-09",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien me e sentido bien, comodo a gusto"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "Mucha regresion con algunos tickets"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Un poco mas que el mes anterior, aun me siento con capacidad para asumir mas"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Siento que hay mucha armonia, me gusta la iniciativa del Learning & Development day"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "vaciar mi board, logre terminar varios items pendientes"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Resolver el issue de Doc Proof"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Oracle Cloud"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "La manera que aborde los tickets y la comunicacion con los stake holders, defendiendo mi postura en las soluciones, dio mejore resultados"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Tratar de tener comunicacion mas efectiva para evitar regresiones"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Detectar cuando necesito apoyo para ayudarme a solicionar o destrabar algun tema"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Definir 1-2 ."
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Definir 1-2 ."
+      ]
+    },
+    {
+      "sourceFile": "2026-09-Gio.md",
+      "memberName": "Eduardo Sanchez Lopez",
+      "period": "2026-09",
+      "overallStatus": "excelente",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, todo bien"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "Algunos tickets pareciera qe se levantan sin sustento, sobre todo los del equipo Hanoi"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Bien,adecuada"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Seguimos avanzando, siento que cada vez es mas fluido"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Resolucion de tickets, las adecuaciones a Reportes"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Adecuaciones a Reportes"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Aprendi mucho de los reportes en el sistema, sobre todo las agregaciones"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "El analisis de los tickets asignados y profundizar en las soluciones"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Quizas trabajar un poco en la velocidad, sin perder calidad"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Bastante bien, siento que el equipo esta bastante comodo, en cuanto a comunicacion, nos sentimos cobijados."
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "revisamos el plan de desarrollo profesional y le daremos seguimiento en el avance de aprendisaje"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "revisamos el plan de desarrollo profesional y le daremos seguimiento en el avance de aprendisaje"
+      ]
+    },
+    {
+      "sourceFile": "2026-09-Gustavo.md",
+      "memberName": "Gustavo Herrera Alonso",
+      "period": "2026-09",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, fue tranquilo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, en general no"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Liviana, fue un mes de correcciones"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, muy integrados"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Este mes trabaje en correcciones"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": ""
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Un poco mas de dominio en la reglas de negocio"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Invesigacion y analisis de bugs"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Comunicacion con todas las partes, investigar un poco mas antes de pregutar"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Todo bien, mantengo mi openion que estas haciendo un buentrabajo como lider"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Seguimiento al plan de crecimiento profesional; Aun no comienzo mi roadamp"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Seguimiento al plan de crecimiento profesional; Aun no comienzo mi roadamp"
+      ]
+    },
+    {
+      "sourceFile": "2026-09-Lalo.md",
+      "memberName": "Eduardo Moreno Lopez",
+      "period": "2026-09",
+      "overallStatus": "excelente",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien en general bien bastante productivo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, todo bien"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Bien adecuada"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Ha estado muy bien"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Resolvi varios tickets"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Calidad en los entregables"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Aprendi mas de la funcionalidad Send To"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Calida de entragas en tiempo y forma"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Mejorar flujos de documentacion"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Nada negativo, muy buen trabajo como Lider"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": "1er martes de octubre"
+        }
+      ],
+      "agreements": []
+    },
+    {
+      "sourceFile": "2026-09-Ricardo.md",
+      "memberName": "Juan Gallegos Cardona",
+      "period": "2026-09",
+      "overallStatus": null,
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Profesionalmente bien, en lo personal, algo golpeado con la perdida de una mis mascotas"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, fue un mes de resolver bugs"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Adecuada, mas trabajo que en meses anteriores"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Todo bien, vamos bien, mas integrados"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Resolucion de errores, la integracion como equipo"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Resolucion de errores"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "He avanzado en el estudio de certificaciones de AWS"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Cumpli en tiempo y calidad las tareas asignadas"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Mejorar las pruebas antes de entregar"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Muy contento con la forma que llevas el equipo"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Dar seguimiento al plan de desarrollo profesional, el objetivo es la certificacion Solution Arquitec de AWS"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Dar seguimiento al plan de desarrollo profesional, el objetivo es la certificacion Solution Arquitec de AWS"
+      ]
+    },
+    {
+      "sourceFile": "2026-09-Toni.md",
+      "memberName": "Francisco Antonio Garcia Quintana",
+      "period": "2026-09",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Muy bien, fue un mes de mas actividades, me senti mas productivo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, todo bien"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, adecuada"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": ""
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Aceptaron una propuesta de mejora que hice"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "la validacion del envelop type"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "La comunicacion acertiva"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "He mejorado la documentacion y la comunicacion con el equipo"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Mejorar la proactividad"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Todo bien"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Empece a estudiar para certificaciones gratuitas de AWS"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Empece a estudiar para certificaciones gratuitas de AWS"
+      ]
+    },
+    {
+      "sourceFile": "2026-10-Diana.md",
+      "memberName": "Diana Hernández de León",
+      "period": "2026-10",
+      "overallStatus": "excelente",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, bastante bien"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "Muchos tickets de dudas que conyevan mas tiempo de trabajo"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Ligera, estuvo tranquilo, solo correcciones"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, siento que estamos muy integrados"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "La capa binaria en la extraccion de textos en los pdfs"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "La capa binaria en la extraccion de textos en los pdfs"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Mas dominio en la extraccion de textos en documentos"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Entregas con calidad"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "La comunicacion, sobre todo el ingles"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Lo haces muy bien, buen trabajo"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Seguimiento a su plan de desarrollo profesional"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": "Comence clases de ingles y estudiar para la certificacion de aws con LLM y devops"
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Seguimiento a su plan de desarrollo profesional",
+        "Support needed: Comence clases de ingles y estudiar para la certificacion de aws con LLM y devops"
+      ]
+    },
+    {
+      "sourceFile": "2026-10-Edgardo.md",
+      "memberName": "Edgardo Balderas Morales",
+      "period": "2026-10",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien me e sentido bien, comodo a gusto"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "Mucha regresion con algunos tickets"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Un poco mas que el mes anterior, aun me siento con capacidad para asumir mas"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Siento que hay mucha armonia, me gusta la iniciativa del Learning & Development day"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "vaciar mi board, logre terminar varios items pendientes"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Resolver el issue de Doc Proof"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Oracle Cloud"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "La manera que aborde los tickets y la comunicacion con los stake holders, defendiendo mi postura en las soluciones, dio mejore resultados"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Tratar de tener comunicacion mas efectiva para evitar regresiones"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Detectar cuando necesito apoyo para ayudarme a solicionar o destrabar algun tema"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Definir 1-2 ."
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Definir 1-2 ."
+      ]
+    },
+    {
+      "sourceFile": "2026-10-Gio.md",
+      "memberName": "Eduardo Sanchez Lopez",
+      "period": "2026-10",
+      "overallStatus": "excelente",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, todo bien"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "Algunos tickets pareciera qe se levantan sin sustento, sobre todo los del equipo Hanoi"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Bien,adecuada"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Seguimos avanzando, siento que cada vez es mas fluido"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Resolucion de tickets, las adecuaciones a Reportes"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Adecuaciones a Reportes"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Aprendi mucho de los reportes en el sistema, sobre todo las agregaciones"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "El analisis de los tickets asignados y profundizar en las soluciones"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Quizas trabajar un poco en la velocidad, sin perder calidad"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Bastante bien, siento que el equipo esta bastante comodo, en cuanto a comunicacion, nos sentimos cobijados."
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "revisamos el plan de desarrollo profesional y le daremos seguimiento en el avance de aprendisaje"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "revisamos el plan de desarrollo profesional y le daremos seguimiento en el avance de aprendisaje"
+      ]
+    },
+    {
+      "sourceFile": "2026-10-Gustavo.md",
+      "memberName": "Gustavo Herrera Alonso",
+      "period": "2026-10",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, fue tranquilo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, en general no"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Liviana, fue un mes de correcciones"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, muy integrados"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Este mes trabaje en correcciones"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": ""
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Un poco mas de dominio en la reglas de negocio"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Invesigacion y analisis de bugs"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Comunicacion con todas las partes, investigar un poco mas antes de pregutar"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Todo bien, mantengo mi openion que estas haciendo un buentrabajo como lider"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Seguimiento al plan de crecimiento profesional; Aun no comienzo mi roadamp"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Seguimiento al plan de crecimiento profesional; Aun no comienzo mi roadamp"
+      ]
+    },
+    {
+      "sourceFile": "2026-10-Lalo.md",
+      "memberName": "Eduardo Moreno Lopez",
+      "period": "2026-10",
+      "overallStatus": "excelente",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Bien en general bien bastante productivo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, todo bien"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Bien adecuada"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Ha estado muy bien"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Resolvi varios tickets"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Calidad en los entregables"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "Aprendi mas de la funcionalidad Send To"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Calida de entragas en tiempo y forma"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Mejorar flujos de documentacion"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Nada negativo, muy buen trabajo como Lider"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": "1er martes de octubre"
+        }
+      ],
+      "agreements": []
+    },
+    {
+      "sourceFile": "2026-10-Ricardo.md",
+      "memberName": "Juan Gallegos Cardona",
+      "period": "2026-10",
+      "overallStatus": null,
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Profesionalmente bien, en lo personal, algo golpeado con la perdida de una mis mascotas"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, fue un mes de resolver bugs"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Adecuada, mas trabajo que en meses anteriores"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": "Todo bien, vamos bien, mas integrados"
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Resolucion de errores, la integracion como equipo"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "Resolucion de errores"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "He avanzado en el estudio de certificaciones de AWS"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "Cumpli en tiempo y calidad las tareas asignadas"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Mejorar las pruebas antes de entregar"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Muy contento con la forma que llevas el equipo"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Dar seguimiento al plan de desarrollo profesional, el objetivo es la certificacion Solution Arquitec de AWS"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Dar seguimiento al plan de desarrollo profesional, el objetivo es la certificacion Solution Arquitec de AWS"
+      ]
+    },
+    {
+      "sourceFile": "2026-10-Toni.md",
+      "memberName": "Francisco Antonio Garcia Quintana",
+      "period": "2026-10",
+      "overallStatus": "bien",
+      "answers": [
+        {
+          "key": "bienestar_sentimiento",
+          "sectionKey": "bienestar",
+          "answerText": "Muy bien, fue un mes de mas actividades, me senti mas productivo"
+        },
+        {
+          "key": "bienestar_frustracion",
+          "sectionKey": "bienestar",
+          "answerText": "No, todo bien"
+        },
+        {
+          "key": "bienestar_carga",
+          "sectionKey": "bienestar",
+          "answerText": "Bien, adecuada"
+        },
+        {
+          "key": "bienestar_dinamica",
+          "sectionKey": "bienestar",
+          "answerText": ""
+        },
+        {
+          "key": "logros_orgullo",
+          "sectionKey": "logros",
+          "answerText": "Aceptaron una propuesta de mejora que hice"
+        },
+        {
+          "key": "logros_impacto",
+          "sectionKey": "logros",
+          "answerText": "la validacion del envelop type"
+        },
+        {
+          "key": "logros_aprendizaje",
+          "sectionKey": "logros",
+          "answerText": "La comunicacion acertiva"
+        },
+        {
+          "key": "desempeno_bien",
+          "sectionKey": "desempeno",
+          "answerText": "He mejorado la documentacion y la comunicacion con el equipo"
+        },
+        {
+          "key": "desempeno_mejorar",
+          "sectionKey": "desempeno",
+          "answerText": "Mejorar la proactividad"
+        },
+        {
+          "key": "desempeno_apoyo_tl",
+          "sectionKey": "desempeno",
+          "answerText": "Todo bien"
+        },
+        {
+          "key": "desarrollo_tecnologia",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_carrera",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "desarrollo_cursos",
+          "sectionKey": "desarrollo",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_objetivos",
+          "sectionKey": "acciones",
+          "answerText": "Empece a estudiar para certificaciones gratuitas de AWS"
+        },
+        {
+          "key": "acciones_apoyos",
+          "sectionKey": "acciones",
+          "answerText": ""
+        },
+        {
+          "key": "acciones_fecha",
+          "sectionKey": "acciones",
+          "answerText": ""
+        }
+      ],
+      "agreements": [
+        "Empece a estudiar para certificaciones gratuitas de AWS"
+      ]
+    }
+  ]
+}

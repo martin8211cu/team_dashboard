@@ -10,19 +10,28 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FollowUpRouteImport } from './routes/follow-up'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MembersRouteImport } from './routes/members'
 import { Route as RetrosRouteImport } from './routes/retros'
 import { Route as SprintRouteImport } from './routes/sprint'
 import { Route as SprintsRouteImport } from './routes/sprints'
+import { Route as FollowUpIndexRouteImport } from './routes/follow-up.index'
+import { Route as FollowUpSessionIdRouteImport } from './routes/follow-up.$sessionId'
 import { Route as MetricsEvolutionRouteImport } from './routes/metrics.evolution'
 import { Route as RetrosIndexRouteImport } from './routes/retros.index'
 import { Route as RetrosSessionIdRouteImport } from './routes/retros.$sessionId'
 import { Route as TasksCompareRouteImport } from './routes/tasks.compare'
+import { Route as FollowUpReportsPeriodRouteImport } from './routes/follow-up.reports.$period'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FollowUpRoute = FollowUpRouteImport.update({
+  id: '/follow-up',
+  path: '/follow-up',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -50,6 +59,16 @@ const SprintsRoute = SprintsRouteImport.update({
   path: '/sprints',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FollowUpIndexRoute = FollowUpIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => FollowUpRoute,
+} as any)
+const FollowUpSessionIdRoute = FollowUpSessionIdRouteImport.update({
+  id: '/$sessionId',
+  path: '/$sessionId',
+  getParentRoute: () => FollowUpRoute,
+} as any)
 const MetricsEvolutionRoute = MetricsEvolutionRouteImport.update({
   id: '/metrics/evolution',
   path: '/metrics/evolution',
@@ -70,18 +89,27 @@ const TasksCompareRoute = TasksCompareRouteImport.update({
   path: '/tasks/compare',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FollowUpReportsPeriodRoute = FollowUpReportsPeriodRouteImport.update({
+  id: '/reports/$period',
+  path: '/reports/$period',
+  getParentRoute: () => FollowUpRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/follow-up': typeof FollowUpRouteWithChildren
   '/login': typeof LoginRoute
   '/members': typeof MembersRoute
   '/retros': typeof RetrosRouteWithChildren
   '/sprint': typeof SprintRoute
   '/sprints': typeof SprintsRoute
+  '/follow-up/$sessionId': typeof FollowUpSessionIdRoute
   '/metrics/evolution': typeof MetricsEvolutionRoute
   '/retros/$sessionId': typeof RetrosSessionIdRoute
   '/tasks/compare': typeof TasksCompareRoute
+  '/follow-up/': typeof FollowUpIndexRoute
   '/retros/': typeof RetrosIndexRoute
+  '/follow-up/reports/$period': typeof FollowUpReportsPeriodRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -89,37 +117,48 @@ export interface FileRoutesByTo {
   '/members': typeof MembersRoute
   '/sprint': typeof SprintRoute
   '/sprints': typeof SprintsRoute
+  '/follow-up/$sessionId': typeof FollowUpSessionIdRoute
   '/metrics/evolution': typeof MetricsEvolutionRoute
   '/retros/$sessionId': typeof RetrosSessionIdRoute
   '/tasks/compare': typeof TasksCompareRoute
+  '/follow-up': typeof FollowUpIndexRoute
   '/retros': typeof RetrosIndexRoute
+  '/follow-up/reports/$period': typeof FollowUpReportsPeriodRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/follow-up': typeof FollowUpRouteWithChildren
   '/login': typeof LoginRoute
   '/members': typeof MembersRoute
   '/retros': typeof RetrosRouteWithChildren
   '/sprint': typeof SprintRoute
   '/sprints': typeof SprintsRoute
+  '/follow-up/$sessionId': typeof FollowUpSessionIdRoute
   '/metrics/evolution': typeof MetricsEvolutionRoute
   '/retros/$sessionId': typeof RetrosSessionIdRoute
   '/tasks/compare': typeof TasksCompareRoute
+  '/follow-up/': typeof FollowUpIndexRoute
   '/retros/': typeof RetrosIndexRoute
+  '/follow-up/reports/$period': typeof FollowUpReportsPeriodRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/follow-up'
     | '/login'
     | '/members'
     | '/retros'
     | '/sprint'
     | '/sprints'
+    | '/follow-up/$sessionId'
     | '/metrics/evolution'
     | '/retros/$sessionId'
     | '/tasks/compare'
+    | '/follow-up/'
     | '/retros/'
+    | '/follow-up/reports/$period'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -127,26 +166,34 @@ export interface FileRouteTypes {
     | '/members'
     | '/sprint'
     | '/sprints'
+    | '/follow-up/$sessionId'
     | '/metrics/evolution'
     | '/retros/$sessionId'
     | '/tasks/compare'
+    | '/follow-up'
     | '/retros'
+    | '/follow-up/reports/$period'
   id:
     | '__root__'
     | '/'
+    | '/follow-up'
     | '/login'
     | '/members'
     | '/retros'
     | '/sprint'
     | '/sprints'
+    | '/follow-up/$sessionId'
     | '/metrics/evolution'
     | '/retros/$sessionId'
     | '/tasks/compare'
+    | '/follow-up/'
     | '/retros/'
+    | '/follow-up/reports/$period'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FollowUpRoute: typeof FollowUpRouteWithChildren
   LoginRoute: typeof LoginRoute
   MembersRoute: typeof MembersRoute
   RetrosRoute: typeof RetrosRouteWithChildren
@@ -163,6 +210,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/follow-up': {
+      id: '/follow-up'
+      path: '/follow-up'
+      fullPath: '/follow-up'
+      preLoaderRoute: typeof FollowUpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -200,6 +254,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SprintsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/follow-up/': {
+      id: '/follow-up/'
+      path: '/'
+      fullPath: '/follow-up/'
+      preLoaderRoute: typeof FollowUpIndexRouteImport
+      parentRoute: typeof FollowUpRoute
+    }
+    '/follow-up/$sessionId': {
+      id: '/follow-up/$sessionId'
+      path: '/$sessionId'
+      fullPath: '/follow-up/$sessionId'
+      preLoaderRoute: typeof FollowUpSessionIdRouteImport
+      parentRoute: typeof FollowUpRoute
+    }
     '/metrics/evolution': {
       id: '/metrics/evolution'
       path: '/metrics/evolution'
@@ -228,8 +296,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TasksCompareRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/follow-up/reports/$period': {
+      id: '/follow-up/reports/$period'
+      path: '/reports/$period'
+      fullPath: '/follow-up/reports/$period'
+      preLoaderRoute: typeof FollowUpReportsPeriodRouteImport
+      parentRoute: typeof FollowUpRoute
+    }
   }
 }
+
+interface FollowUpRouteChildren {
+  FollowUpSessionIdRoute: typeof FollowUpSessionIdRoute
+  FollowUpIndexRoute: typeof FollowUpIndexRoute
+  FollowUpReportsPeriodRoute: typeof FollowUpReportsPeriodRoute
+}
+
+const FollowUpRouteChildren: FollowUpRouteChildren = {
+  FollowUpSessionIdRoute: FollowUpSessionIdRoute,
+  FollowUpIndexRoute: FollowUpIndexRoute,
+  FollowUpReportsPeriodRoute: FollowUpReportsPeriodRoute,
+}
+
+const FollowUpRouteWithChildren = FollowUpRoute._addFileChildren(
+  FollowUpRouteChildren,
+)
 
 interface RetrosRouteChildren {
   RetrosSessionIdRoute: typeof RetrosSessionIdRoute
@@ -246,6 +337,7 @@ const RetrosRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FollowUpRoute: FollowUpRouteWithChildren,
   LoginRoute: LoginRoute,
   MembersRoute: MembersRoute,
   RetrosRoute: RetrosRouteWithChildren,

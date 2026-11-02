@@ -1,8 +1,15 @@
 import type {
   AuthMeResponse,
   AuthUser,
+  CreateFollowUpSessionInput,
   CreateRetroCardInput,
   CreateTeamMemberInput,
+  FollowUpAssistInput,
+  FollowUpAssistResponse,
+  FollowUpMonthlyReport,
+  FollowUpPeriodOverview,
+  FollowUpSessionDetail,
+  FollowUpSessionSummary,
   HealthResponse,
   JiraConfigResponse,
   JiraErrorResponse,
@@ -20,7 +27,10 @@ import type {
   SprintTasksResponse,
   SprintsResponse,
   TeamMember,
+  UpdateFollowUpSessionInput,
   UpdateTeamMemberInput,
+  UpsertFollowUpAgreementsInput,
+  UpsertFollowUpEvaluationInput,
 } from "@team-dashboard/shared";
 import { accumulateByAltenAssignees } from "@team-dashboard/shared";
 import { apiUrl } from "./apiBase";
@@ -370,5 +380,76 @@ export async function toggleRetroCardReaction(
   return fetchJson(`/api/retros/${sessionId}/cards/${cardId}/reactions`, {
     method: "POST",
     body: JSON.stringify({ reaction }),
+  });
+}
+
+export async function fetchFollowUpPeriod(period: string): Promise<FollowUpPeriodOverview> {
+  return fetchJson(`/api/follow-up?period=${encodeURIComponent(period)}`);
+}
+
+export async function createFollowUpSession(
+  input: CreateFollowUpSessionInput,
+): Promise<FollowUpSessionSummary> {
+  return fetchJson("/api/follow-up/sessions", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export async function fetchFollowUpSession(id: number): Promise<FollowUpSessionDetail> {
+  return fetchJson(`/api/follow-up/sessions/${id}`);
+}
+
+export async function updateFollowUpSession(
+  id: number,
+  input: UpdateFollowUpSessionInput,
+): Promise<FollowUpSessionDetail> {
+  return fetchJson(`/api/follow-up/sessions/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(input),
+  });
+}
+
+export async function upsertFollowUpEvaluation(
+  id: number,
+  input: UpsertFollowUpEvaluationInput,
+): Promise<FollowUpSessionDetail> {
+  return fetchJson(`/api/follow-up/sessions/${id}/evaluation`, {
+    method: "PUT",
+    body: JSON.stringify(input),
+  });
+}
+
+export async function upsertFollowUpAgreements(
+  id: number,
+  input: UpsertFollowUpAgreementsInput,
+): Promise<FollowUpSessionDetail> {
+  return fetchJson(`/api/follow-up/sessions/${id}/agreements`, {
+    method: "PUT",
+    body: JSON.stringify(input),
+  });
+}
+
+export async function completeFollowUpSession(id: number): Promise<FollowUpSessionDetail> {
+  return fetchJson(`/api/follow-up/sessions/${id}/complete`, { method: "POST" });
+}
+
+export async function assistFollowUpSession(
+  id: number,
+  input: FollowUpAssistInput,
+): Promise<FollowUpAssistResponse> {
+  return fetchJson(`/api/follow-up/sessions/${id}/assist`, {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export async function fetchFollowUpReport(period: string): Promise<FollowUpMonthlyReport> {
+  return fetchJson(`/api/follow-up/reports/${encodeURIComponent(period)}`);
+}
+
+export async function generateFollowUpReport(period: string): Promise<FollowUpMonthlyReport> {
+  return fetchJson(`/api/follow-up/reports/${encodeURIComponent(period)}/generate`, {
+    method: "POST",
   });
 }

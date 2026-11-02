@@ -2,7 +2,7 @@ export type NavItem = {
   to: string;
   label: string;
   description?: string;
-  icon: "dashboard" | "members" | "sprints" | "metrics" | "retros";
+  icon: "dashboard" | "members" | "sprints" | "metrics" | "retros" | "followUp";
   activePrefix?: string[];
 };
 
@@ -53,6 +53,13 @@ export const navSections: { title: string; items: NavItem[] }[] = [
         icon: "retros",
         activePrefix: ["/retros"],
       },
+      {
+        to: "/follow-up",
+        label: "Follow Up",
+        description: "Monthly 1:1 tracking",
+        icon: "followUp",
+        activePrefix: ["/follow-up"],
+      },
     ],
   },
 ];
@@ -66,6 +73,7 @@ export const pageTitles: Record<string, string> = {
   "/metrics/evolution": "Metrics evolution",
   "/tasks/compare": "Compare tasks",
   "/retros": "Retrospectives",
+  "/follow-up": "Follow Up",
 };
 
 function parseSprintNumbersFromSearch(search: Record<string, unknown>): number[] {
@@ -89,6 +97,15 @@ export function resolvePageTitle(pathname: string, search: Record<string, unknow
   }
   if (pathname === "/retros") {
     return pageTitles["/retros"];
+  }
+  if (pathname.startsWith("/follow-up/reports/")) {
+    return "Follow Up report";
+  }
+  if (pathname.startsWith("/follow-up/")) {
+    return "Follow Up session";
+  }
+  if (pathname === "/follow-up") {
+    return pageTitles["/follow-up"];
   }
   return pageTitles[pathname] ?? "Team Dashboard";
 }

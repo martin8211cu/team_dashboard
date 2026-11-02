@@ -1,6 +1,7 @@
 import type { IconType } from "react-icons";
 import {
   HiBookmarkSquare,
+  HiCalendarDays,
   HiChartBarSquare,
   HiChatBubbleLeftRight,
   HiSquares2X2,
@@ -14,6 +15,7 @@ const NAV_ICONS: Record<NavItem["icon"], IconType> = {
   sprints: HiBookmarkSquare,
   metrics: HiChartBarSquare,
   retros: HiChatBubbleLeftRight,
+  followUp: HiCalendarDays,
 };
 
 type NavIconProps = {

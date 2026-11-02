@@ -15,3 +15,5 @@ graphify-out/
 # Local / private team configs (keep example.json in git)
 packages/shared/config/teams/local.json
 **/team.local.json
+
+evaluacion-rh/

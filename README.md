@@ -150,7 +150,7 @@ Las rutas `/api/*` (excepto `/api/auth/*`) requieren sesión. Los métodos de es
 | Variable | Default | Descripción |
 | --- | --- | --- |
 | `WORKER_PORT` | `8091` | Puerto health del worker |
-| `SYNC_CRON` | `0 3 * * *` | Cron diario (hora local del proceso) |
+| `SYNC_CRON` | `0 */2 * * *` | Cron cada 2 horas (hora local del servidor) |
 | `SYNC_SPRINT_DELAY_MS` | `60000` | Pausa entre sprints |
 | `SYNC_CHANGELOG_CONCURRENCY` | `3` | Concurrencia de changelogs en worker |
 | `SYNC_MAX_CLOSED_PER_RUN` | _(vacío)_ | Máx. sprints cerrados por ejecución |

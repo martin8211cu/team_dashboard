@@ -42,7 +42,7 @@ export type WorkerConfig = {
 export function loadWorkerConfig(): WorkerConfig {
   return {
     port: readPositiveInt("WORKER_PORT", 8091),
-    cron: process.env.SYNC_CRON ?? "0 3 * * *",
+    cron: process.env.SYNC_CRON ?? "0 */2 * * *",
     runOnStart: readBoolean("SYNC_RUN_ON_START", false),
     sync: {
       sprintDelayMs: readPositiveInt("SYNC_SPRINT_DELAY_MS", 60_000),

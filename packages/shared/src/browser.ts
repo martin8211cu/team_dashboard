@@ -51,6 +51,46 @@ export type {
 } from "./types/member";
 export type { JiraUser } from "./types/jiraUser";
 export { DEFAULT_AGILE_METRICS } from "./types/config";
+export type {
+  FollowUpSessionStatus,
+  FollowUpOverallStatus,
+  FollowUpTendencia,
+  FollowUpAgreementStatus,
+  FollowUpAssistKind,
+  FollowUpSectionKey,
+  FollowUpEvaluationScores,
+  FollowUpEvaluation,
+  FollowUpAnswer,
+  FollowUpAgreement,
+  FollowUpSessionSummary,
+  FollowUpPeriodMemberRow,
+  FollowUpPeriodOverview,
+  FollowUpSessionDetail,
+  FollowUpMonthlyReport,
+  CreateFollowUpSessionInput,
+  UpdateFollowUpSessionInput,
+  UpsertFollowUpEvaluationInput,
+  UpsertFollowUpAgreementsInput,
+  FollowUpAssistInput,
+  FollowUpAssistResponse,
+} from "./types/followUp";
+export {
+  FOLLOW_UP_OVERALL_STATUS_OPTIONS,
+  FOLLOW_UP_EVALUATION_DIMENSIONS,
+  FOLLOW_UP_SECTIONS,
+  FOLLOW_UP_CLOSING_QUESTION,
+  FOLLOW_UP_ALL_QUESTIONS,
+  isValidPeriod,
+  defaultFollowUpPeriod,
+  listFollowUpPeriodOptions,
+  formatOverallStatus,
+  formatSessionStatus,
+  formatTendencia,
+  formatPeriodLabel,
+  averageEvaluationScores,
+  type FollowUpQuestionDef,
+  type FollowUpSectionDef,
+} from "./followUp/questions";
 export { filterTasksByMembers } from "./tasks/filters";
 export { filterMetricsByMembers } from "./metrics/filters";
 export {

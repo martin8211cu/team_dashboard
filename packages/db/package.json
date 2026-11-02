@@ -9,6 +9,7 @@
   "scripts": {
     "migrate": "bun run scripts/run-migrate.ts",
     "seed": "bun run scripts/run-seed.ts",
+    "seed:export-follow-up-notes": "bun run scripts/export-follow-up-notes-fixture.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

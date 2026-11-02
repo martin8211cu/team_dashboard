@@ -1,11 +1,14 @@
 import type { Knex } from "knex";
-import { seedFollowUpNotesFromEvaluacionRh } from "./lib/followUpNotesImport";
+import { seedFollowUpNotesFromFixture } from "./lib/followUpNotesImport";
 
 /**
- * Seeds historical monthly 1:1 sessions from evaluacion-rh/notas.
+ * Seeds historical monthly 1:1 sessions from the committed fixture
+ * `seeds/data/follow_up_notes.json` (not from evaluacion-rh/).
  * Idempotent: re-running upserts by (member_id, period).
- * Skips quietly if the notes folder is not present.
+ *
+ * Regenerate the fixture when local notes change:
+ *   bun run --filter @team-dashboard/db seed:export-follow-up-notes
  */
 export async function seed(knex: Knex): Promise<void> {
-  await seedFollowUpNotesFromEvaluacionRh(knex);
+  await seedFollowUpNotesFromFixture(knex);
 }

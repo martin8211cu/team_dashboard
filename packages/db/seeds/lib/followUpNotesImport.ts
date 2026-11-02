@@ -1,12 +1,13 @@
-import { access, readdir, readFile } from "node:fs/promises";
+import { access, mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Knex } from "knex";
 
-const NOTES_DIR = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../../../../evaluacion-rh/notas",
-);
+const SEEDS_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+export const FOLLOW_UP_NOTES_FIXTURE_PATH = path.join(SEEDS_DIR, "data", "follow_up_notes.json");
+
+/** Optional local source for regenerating the committed fixture (gitignored). */
+export const EVALUACION_RH_NOTES_DIR = path.resolve(SEEDS_DIR, "../../../evaluacion-rh/notas");
 
 /** Filename nickname → roster full name */
 export const FOLLOW_UP_NICKNAME_TO_NAME: Record<string, string> = {
@@ -20,6 +21,21 @@ export const FOLLOW_UP_NICKNAME_TO_NAME: Record<string, string> = {
 };
 
 type OverallStatus = "excelente" | "bien" | "neutral" | "preocupado" | "riesgo";
+
+export type FollowUpNoteFixture = {
+  sourceFile: string;
+  memberName: string;
+  period: string;
+  overallStatus: OverallStatus | null;
+  answers: Array<{ key: string; sectionKey: string; answerText: string }>;
+  agreements: string[];
+};
+
+export type FollowUpNotesFixtureFile = {
+  generatedAt: string;
+  source: string;
+  sessions: FollowUpNoteFixture[];
+};
 
 const QUESTION_MATCHERS: Array<{
   key: string;
@@ -276,32 +292,13 @@ async function ensureMember(
   return { id: inserted!.id, name: inserted!.name, created: true };
 }
 
-export async function seedFollowUpNotesFromEvaluacionRh(knex: Knex): Promise<void> {
-  try {
-    await access(NOTES_DIR);
-  } catch {
-    console.warn(`Follow Up notes dir not found (${NOTES_DIR}); skipping seed`);
-    return;
-  }
-
-  const files = (await readdir(NOTES_DIR)).filter((name) => name.endsWith(".md")).sort();
-  if (files.length === 0) {
-    console.warn(`No Follow Up notes in ${NOTES_DIR}; skipping seed`);
-    return;
-  }
-
-  const adminEmail = process.env.AUTH_ADMIN_EMAIL?.trim().toLowerCase();
-  const admin = adminEmail
-    ? await knex("team_members").where({ email: adminEmail }).first<{ id: number }>()
-    : await knex("team_members").orderBy("id").first<{ id: number }>();
-  if (!admin) {
-    console.warn("No creator member found for Follow Up seed; skipping");
-    return;
-  }
-
-  let imported = 0;
+/** Parse markdown notes from a directory into seed fixtures (does not touch the DB). */
+export async function buildFollowUpNotesFixturesFromDir(
+  notesDir: string,
+): Promise<FollowUpNoteFixture[]> {
+  const files = (await readdir(notesDir)).filter((name) => name.endsWith(".md")).sort();
+  const sessions: FollowUpNoteFixture[] = [];
   let skipped = 0;
-  let membersCreated = 0;
 
   for (const file of files) {
     const parsed = parseFilename(file);
@@ -317,18 +314,77 @@ export async function seedFollowUpNotesFromEvaluacionRh(knex: Knex): Promise<voi
       continue;
     }
 
-    const text = await readFile(path.join(NOTES_DIR, file), "utf8");
-    const overallStatus = parseOverallStatus(text);
+    const text = await readFile(path.join(notesDir, file), "utf8");
     const answers = parseAnswers(text);
-    const agreements = parseActionAgreements(answers);
-    const member = await ensureMember(knex, fullName);
+    sessions.push({
+      sourceFile: file,
+      memberName: fullName,
+      period: parsed.period,
+      overallStatus: parseOverallStatus(text),
+      answers,
+      agreements: parseActionAgreements(answers),
+    });
+  }
+
+  if (skipped > 0) {
+    console.warn(`Skipped ${skipped} note file(s) while building fixture`);
+  }
+  return sessions;
+}
+
+export async function writeFollowUpNotesFixture(
+  sessions: FollowUpNoteFixture[],
+  source = "evaluacion-rh/notas",
+): Promise<string> {
+  const payload: FollowUpNotesFixtureFile = {
+    generatedAt: new Date().toISOString(),
+    source,
+    sessions,
+  };
+  await mkdir(path.dirname(FOLLOW_UP_NOTES_FIXTURE_PATH), { recursive: true });
+  await writeFile(FOLLOW_UP_NOTES_FIXTURE_PATH, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+  return FOLLOW_UP_NOTES_FIXTURE_PATH;
+}
+
+export async function loadFollowUpNotesFixture(
+  fixturePath = FOLLOW_UP_NOTES_FIXTURE_PATH,
+): Promise<FollowUpNoteFixture[]> {
+  const raw = await readFile(fixturePath, "utf8");
+  const parsed = JSON.parse(raw) as FollowUpNotesFixtureFile | FollowUpNoteFixture[];
+  if (Array.isArray(parsed)) {
+    return parsed;
+  }
+  if (!parsed || !Array.isArray(parsed.sessions)) {
+    throw new Error(`Invalid Follow Up notes fixture at ${fixturePath}`);
+  }
+  return parsed.sessions;
+}
+
+export async function seedFollowUpNoteFixtures(
+  knex: Knex,
+  sessions: FollowUpNoteFixture[],
+): Promise<void> {
+  const adminEmail = process.env.AUTH_ADMIN_EMAIL?.trim().toLowerCase();
+  const admin = adminEmail
+    ? await knex("team_members").where({ email: adminEmail }).first<{ id: number }>()
+    : await knex("team_members").orderBy("id").first<{ id: number }>();
+  if (!admin) {
+    console.warn("No creator member found for Follow Up seed; skipping");
+    return;
+  }
+
+  let imported = 0;
+  let membersCreated = 0;
+
+  for (const session of sessions) {
+    const member = await ensureMember(knex, session.memberName);
     if (member.created) {
       membersCreated += 1;
       console.log(`+ member ${member.name}`);
     }
 
     const existing = await knex("follow_up_sessions")
-      .where({ member_id: member.id, period: parsed.period })
+      .where({ member_id: member.id, period: session.period })
       .first<{ id: number }>();
 
     let sessionId: number;
@@ -337,7 +393,7 @@ export async function seedFollowUpNotesFromEvaluacionRh(knex: Knex): Promise<voi
       await knex("follow_up_sessions")
         .where({ id: sessionId })
         .update({
-          overall_status: overallStatus,
+          overall_status: session.overallStatus,
           status: "completed",
           completed_at: knex.fn.now(),
           updated_at: knex.fn.now(),
@@ -350,9 +406,9 @@ export async function seedFollowUpNotesFromEvaluacionRh(knex: Knex): Promise<voi
       const [inserted] = await knex("follow_up_sessions")
         .insert({
           member_id: member.id,
-          period: parsed.period,
+          period: session.period,
           status: "completed",
-          overall_status: overallStatus,
+          overall_status: session.overallStatus,
           created_by: admin.id,
           completed_at: knex.fn.now(),
           tl_feedback: "",
@@ -362,9 +418,9 @@ export async function seedFollowUpNotesFromEvaluacionRh(knex: Knex): Promise<voi
       sessionId = inserted!.id;
     }
 
-    if (answers.length > 0) {
+    if (session.answers.length > 0) {
       await knex("follow_up_answers").insert(
-        answers.map((answer) => ({
+        session.answers.map((answer) => ({
           session_id: sessionId,
           section_key: answer.sectionKey,
           question_key: answer.key,
@@ -373,20 +429,20 @@ export async function seedFollowUpNotesFromEvaluacionRh(knex: Knex): Promise<voi
       );
     }
 
-    if (agreements.length > 0) {
+    if (session.agreements.length > 0) {
       await knex("follow_up_agreements").insert(
-        agreements.map((description, index) => ({
+        session.agreements.map((description, index) => ({
           session_id: sessionId,
           description,
           status: "open",
-          notes: "Seeded from evaluacion-rh notes",
+          notes: "Seeded from Follow Up notes fixture",
           sort_order: index,
         })),
       );
     }
 
-    if (overallStatus) {
-      const score = scoresFromOverall(overallStatus);
+    if (session.overallStatus) {
+      const score = scoresFromOverall(session.overallStatus);
       const evalPayload = {
         session_id: sessionId,
         calidad_tecnica: score,
@@ -398,7 +454,7 @@ export async function seedFollowUpNotesFromEvaluacionRh(knex: Knex): Promise<voi
         aprendizaje: score,
         tendencia: "stable" as const,
         observaciones:
-          "Seeded from evaluacion-rh notes. Scores seeded from overall status — adjust as needed.",
+          "Seeded from Follow Up notes fixture. Scores seeded from overall status — adjust as needed.",
       };
       const hasEval = await knex("follow_up_evaluations").where({ session_id: sessionId }).first();
       if (hasEval) {
@@ -415,6 +471,46 @@ export async function seedFollowUpNotesFromEvaluacionRh(knex: Knex): Promise<voi
   }
 
   console.log(
-    `Follow Up notes seed: imported=${imported} skipped=${skipped} membersCreated=${membersCreated}`,
+    `Follow Up notes seed: imported=${imported} membersCreated=${membersCreated}`,
   );
+}
+
+/** Seed from the committed JSON fixture (no evaluacion-rh dependency). */
+export async function seedFollowUpNotesFromFixture(knex: Knex): Promise<void> {
+  try {
+    await access(FOLLOW_UP_NOTES_FIXTURE_PATH);
+  } catch {
+    console.warn(
+      `Follow Up notes fixture not found (${FOLLOW_UP_NOTES_FIXTURE_PATH}); skipping seed`,
+    );
+    return;
+  }
+
+  const sessions = await loadFollowUpNotesFixture();
+  if (sessions.length === 0) {
+    console.warn("Follow Up notes fixture is empty; skipping seed");
+    return;
+  }
+
+  await seedFollowUpNoteFixtures(knex, sessions);
+}
+
+/** @deprecated Use seedFollowUpNotesFromFixture; kept for local one-off imports. */
+export async function seedFollowUpNotesFromEvaluacionRh(knex: Knex): Promise<void> {
+  try {
+    await access(EVALUACION_RH_NOTES_DIR);
+  } catch {
+    console.warn(
+      `Follow Up notes dir not found (${EVALUACION_RH_NOTES_DIR}); skipping seed`,
+    );
+    return;
+  }
+
+  const sessions = await buildFollowUpNotesFixturesFromDir(EVALUACION_RH_NOTES_DIR);
+  if (sessions.length === 0) {
+    console.warn(`No Follow Up notes in ${EVALUACION_RH_NOTES_DIR}; skipping seed`);
+    return;
+  }
+
+  await seedFollowUpNoteFixtures(knex, sessions);
 }

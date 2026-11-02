@@ -94,13 +94,23 @@ export type FollowUpSessionDetail = {
   canEdit: boolean;
 };
 
+export type FollowUpReportLang = "es" | "en";
+
 export type FollowUpMonthlyReport = {
   id: number;
   period: string;
-  contentMd: string;
+  contentMdEs: string;
+  contentMdEn: string;
   model: string;
   generatedBy: number;
   generatedAt: string;
+  updatedBy: number | null;
+  updatedAt: string | null;
+};
+
+export type UpdateFollowUpReportInput = {
+  contentMdEs?: string;
+  contentMdEn?: string;
 };
 
 export type CreateFollowUpSessionInput = {

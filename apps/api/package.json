@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@team-dashboard/db": "workspace:*",
     "@team-dashboard/export": "workspace:*",
     "@team-dashboard/shared": "workspace:*",

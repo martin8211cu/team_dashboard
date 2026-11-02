@@ -15,6 +15,7 @@ import { jiraRoutes } from "./routes/jira";
 import { kpiRoutes } from "./routes/kpis";
 import { memberRoutes } from "./routes/members";
 import { retroRoutes } from "./routes/retros";
+import { followUpRoutes } from "./routes/followUp";
 import { backfillMissingPasswords, ensureAdminMember } from "./services/authService";
 const log = createLogger("api");
 
@@ -72,6 +73,7 @@ app.route("/api/members", memberRoutes);
 app.route("/api/jira", jiraRoutes);
 app.route("/api/export", exportRoutes);
 app.route("/api/retros", retroRoutes);
+app.route("/api/follow-up", followUpRoutes);
 
 app.get("/", (c) => c.json({ name: "team-dashboard-api", version: "0.0.0" }));
 

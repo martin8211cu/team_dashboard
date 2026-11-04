@@ -45,6 +45,35 @@ export type FollowUpEvaluationRow = {
   updated_at: Date | string;
 };
 
+export type FollowUpSelfEvaluationRow = {
+  id: number;
+  member_id: number;
+  period: string;
+  calidad_tecnica: number;
+  cumplimiento: number;
+  comunicacion: number;
+  colaboracion: number;
+  autonomia: number;
+  proactividad: number;
+  aprendizaje: number;
+  tendencia: FollowUpTendencia;
+  observaciones: string;
+  submitted_at: Date | string;
+  updated_at: Date | string;
+};
+
+type SelfEvaluationScoresInput = {
+  calidad_tecnica: number;
+  cumplimiento: number;
+  comunicacion: number;
+  colaboracion: number;
+  autonomia: number;
+  proactividad: number;
+  aprendizaje: number;
+  tendencia: FollowUpTendencia;
+  observaciones: string;
+};
+
 export type FollowUpAgreementRow = {
   id: number;
   session_id: number;
@@ -210,19 +239,65 @@ export async function getEvaluation(sessionId: number): Promise<FollowUpEvaluati
   return row ?? null;
 }
 
+export async function getSelfEvaluation(
+  memberId: number,
+  period: string,
+): Promise<FollowUpSelfEvaluationRow | null> {
+  const row = await getDb()("follow_up_self_evaluations")
+    .where({ member_id: memberId, period })
+    .first<FollowUpSelfEvaluationRow>();
+  return row ?? null;
+}
+
+export async function listSelfEvaluationsForMember(
+  memberId: number,
+  limit = 6,
+): Promise<FollowUpSelfEvaluationRow[]> {
+  return getDb()("follow_up_self_evaluations")
+    .where({ member_id: memberId })
+    .orderBy("period", "desc")
+    .limit(limit)
+    .select<FollowUpSelfEvaluationRow[]>("*");
+}
+
+export async function insertSelfEvaluation(
+  memberId: number,
+  period: string,
+  input: SelfEvaluationScoresInput,
+): Promise<FollowUpSelfEvaluationRow> {
+  const [inserted] = await getDb()("follow_up_self_evaluations")
+    .insert({
+      member_id: memberId,
+      period,
+      ...input,
+    })
+    .returning<FollowUpSelfEvaluationRow[]>("*");
+  return inserted!;
+}
+
+export async function upsertSelfEvaluationAdmin(
+  memberId: number,
+  period: string,
+  input: SelfEvaluationScoresInput,
+): Promise<FollowUpSelfEvaluationRow> {
+  const existing = await getSelfEvaluation(memberId, period);
+  if (existing) {
+    await getDb()("follow_up_self_evaluations")
+      .where({ id: existing.id })
+      .update({ ...input, updated_at: getDb().fn.now() });
+  } else {
+    await getDb()("follow_up_self_evaluations").insert({
+      member_id: memberId,
+      period,
+      ...input,
+    });
+  }
+  return (await getSelfEvaluation(memberId, period))!;
+}
+
 export async function upsertEvaluation(
   sessionId: number,
-  input: {
-    calidad_tecnica: number;
-    cumplimiento: number;
-    comunicacion: number;
-    colaboracion: number;
-    autonomia: number;
-    proactividad: number;
-    aprendizaje: number;
-    tendencia: FollowUpTendencia;
-    observaciones: string;
-  },
+  input: SelfEvaluationScoresInput,
 ): Promise<FollowUpEvaluationRow> {
   const existing = await getEvaluation(sessionId);
   if (existing) {

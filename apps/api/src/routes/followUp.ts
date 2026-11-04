@@ -3,13 +3,16 @@ import type {
   AuthUser,
   CreateFollowUpSessionInput,
   FollowUpAssistInput,
+  SubmitFollowUpSelfEvaluationInput,
   UpdateFollowUpReportInput,
+  UpdateFollowUpSelfEvaluationInput,
   UpdateFollowUpSessionInput,
   UpsertFollowUpAgreementsInput,
   UpsertFollowUpEvaluationInput,
 } from "@team-dashboard/shared";
 import {
   FollowUpError,
+  adminUpsertSelfEvaluation,
   assistSession,
   completeSession,
   createSession,
@@ -18,6 +21,7 @@ import {
   getReport,
   getReportPdf,
   getSessionDetail,
+  submitSelfEvaluation,
   updateReport,
   updateSession,
   upsertAgreements,
@@ -48,6 +52,31 @@ followUpRoutes.get("/", async (c) => {
   const period = c.req.query("period") ?? "";
   try {
     return c.json(await getPeriodOverview(period, getUser(c)));
+  } catch (err) {
+    const { error, status } = handleError(err);
+    return c.json({ error }, status);
+  }
+});
+
+followUpRoutes.post("/self-evaluations", async (c) => {
+  const body = (await c.req.json().catch(() => ({}))) as SubmitFollowUpSelfEvaluationInput;
+  try {
+    return c.json(await submitSelfEvaluation(body, getUser(c)), 201);
+  } catch (err) {
+    const { error, status } = handleError(err);
+    return c.json({ error }, status);
+  }
+});
+
+followUpRoutes.patch("/self-evaluations/:memberId/:period", async (c) => {
+  const memberId = Number.parseInt(c.req.param("memberId"), 10);
+  const period = c.req.param("period");
+  if (Number.isNaN(memberId)) {
+    return c.json({ error: "Invalid memberId" }, 400);
+  }
+  const body = (await c.req.json().catch(() => ({}))) as UpdateFollowUpSelfEvaluationInput;
+  try {
+    return c.json(await adminUpsertSelfEvaluation(memberId, period, body, getUser(c)));
   } catch (err) {
     const { error, status } = handleError(err);
     return c.json({ error }, status);

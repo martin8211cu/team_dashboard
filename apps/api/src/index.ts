@@ -16,6 +16,7 @@ import { kpiRoutes } from "./routes/kpis";
 import { memberRoutes } from "./routes/members";
 import { retroRoutes } from "./routes/retros";
 import { followUpRoutes } from "./routes/followUp";
+import { meRoutes } from "./routes/me";
 import { backfillMissingPasswords, ensureAdminMember } from "./services/authService";
 const log = createLogger("api");
 
@@ -62,6 +63,10 @@ app.use("/api/*", async (c, next) => {
   if (c.req.path.startsWith("/api/retros")) {
     return next();
   }
+  // Collaborators may submit their own Follow Up self-evaluation (one-shot).
+  if (c.req.method === "POST" && c.req.path === "/api/follow-up/self-evaluations") {
+    return next();
+  }
   if (c.req.method === "GET" || c.req.method === "HEAD" || c.req.method === "OPTIONS") {
     return next();
   }
@@ -74,6 +79,7 @@ app.route("/api/jira", jiraRoutes);
 app.route("/api/export", exportRoutes);
 app.route("/api/retros", retroRoutes);
 app.route("/api/follow-up", followUpRoutes);
+app.route("/api/me", meRoutes);
 
 app.get("/", (c) => c.json({ name: "team-dashboard-api", version: "0.0.0" }));
 

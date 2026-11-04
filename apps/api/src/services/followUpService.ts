@@ -10,9 +10,12 @@ import type {
   FollowUpPeriodOverview,
   FollowUpReportLang,
   FollowUpSectionKey,
+  FollowUpSelfEvaluation,
   FollowUpSessionDetail,
   FollowUpSessionSummary,
+  SubmitFollowUpSelfEvaluationInput,
   UpdateFollowUpReportInput,
+  UpdateFollowUpSelfEvaluationInput,
   UpdateFollowUpSessionInput,
   UpsertFollowUpAgreementsInput,
   UpsertFollowUpEvaluationInput,
@@ -88,7 +91,19 @@ function toSummary(
   };
 }
 
-function toEvaluation(row: followUpDb.FollowUpEvaluationRow): FollowUpEvaluation {
+type ScoreRow = {
+  calidad_tecnica: number;
+  cumplimiento: number;
+  comunicacion: number;
+  colaboracion: number;
+  autonomia: number;
+  proactividad: number;
+  aprendizaje: number;
+  tendencia: FollowUpEvaluation["tendencia"];
+  observaciones: string;
+};
+
+function toEvaluation(row: ScoreRow): FollowUpEvaluation {
   const scores = {
     calidadTecnica: row.calidad_tecnica,
     cumplimiento: row.cumplimiento,
@@ -103,6 +118,44 @@ function toEvaluation(row: followUpDb.FollowUpEvaluationRow): FollowUpEvaluation
     tendencia: row.tendencia,
     observaciones: row.observaciones,
     promedio: averageEvaluationScores(scores),
+  };
+}
+
+function toSelfEvaluation(row: followUpDb.FollowUpSelfEvaluationRow): FollowUpSelfEvaluation {
+  return {
+    ...toEvaluation(row),
+    memberId: row.member_id,
+    period: row.period,
+    submittedAt: followUpDb.toIso(row.submitted_at)!,
+    updatedAt: followUpDb.toIso(row.updated_at)!,
+  };
+}
+
+function parseEvaluationInput(input: UpsertFollowUpEvaluationInput) {
+  if (!["up", "down", "stable"].includes(input.tendencia)) {
+    throw new FollowUpError("Invalid tendencia", 400);
+  }
+  return {
+    calidad_tecnica: scoreInRange(input.calidadTecnica, "calidadTecnica"),
+    cumplimiento: scoreInRange(input.cumplimiento, "cumplimiento"),
+    comunicacion: scoreInRange(input.comunicacion, "comunicacion"),
+    colaboracion: scoreInRange(input.colaboracion, "colaboracion"),
+    autonomia: scoreInRange(input.autonomia, "autonomia"),
+    proactividad: scoreInRange(input.proactividad, "proactividad"),
+    aprendizaje: scoreInRange(input.aprendizaje, "aprendizaje"),
+    tendencia: input.tendencia,
+    observaciones: input.observaciones ?? "",
+  };
+}
+
+function selfEvalFlags(
+  user: AuthUser,
+  memberId: number,
+  selfEvaluation: FollowUpSelfEvaluation | null,
+) {
+  return {
+    canSubmitSelfEvaluation: user.id === memberId && selfEvaluation == null,
+    canEditSelfEvaluation: user.role === "admin",
   };
 }
 
@@ -252,11 +305,14 @@ export async function getSessionDetail(
   }
   assertCanViewSession(user, session.member_id);
 
-  const [answers, evaluation, agreements] = await Promise.all([
+  const [answers, evaluation, agreements, selfEvalRow] = await Promise.all([
     followUpDb.listAnswers(sessionId),
     followUpDb.getEvaluation(sessionId),
     followUpDb.listAgreements(sessionId),
+    followUpDb.getSelfEvaluation(session.member_id, session.period),
   ]);
+
+  const selfEvaluation = selfEvalRow ? toSelfEvaluation(selfEvalRow) : null;
 
   return {
     session: toSummary({ ...session, evaluation_promedio: evaluation ? averageEvaluationScores({
@@ -270,9 +326,47 @@ export async function getSessionDetail(
     }) : null }),
     answers: toAnswers(answers),
     evaluation: evaluation ? toEvaluation(evaluation) : null,
+    selfEvaluation,
     agreements: agreements.map(toAgreement),
     canEdit: user.role === "admin" && session.status === "draft",
+    ...selfEvalFlags(user, session.member_id, selfEvaluation),
   };
+}
+
+export async function submitSelfEvaluation(
+  input: SubmitFollowUpSelfEvaluationInput,
+  user: AuthUser,
+): Promise<FollowUpSelfEvaluation> {
+  const period = validatePeriod(input.period);
+  const existing = await followUpDb.getSelfEvaluation(user.id, period);
+  if (existing) {
+    throw new FollowUpError("Self-evaluation already submitted for this period", 409);
+  }
+  const row = await followUpDb.insertSelfEvaluation(user.id, period, parseEvaluationInput(input));
+  return toSelfEvaluation(row);
+}
+
+export async function adminUpsertSelfEvaluation(
+  memberId: number,
+  periodRaw: string,
+  input: UpdateFollowUpSelfEvaluationInput,
+  user: AuthUser,
+): Promise<FollowUpSelfEvaluation> {
+  requireAdmin(user);
+  const period = validatePeriod(periodRaw);
+  if (!Number.isInteger(memberId) || memberId <= 0) {
+    throw new FollowUpError("Invalid memberId", 400);
+  }
+  const member = await getMemberById(memberId);
+  if (!member) {
+    throw new FollowUpError("Member not found", 404);
+  }
+  const row = await followUpDb.upsertSelfEvaluationAdmin(
+    memberId,
+    period,
+    parseEvaluationInput(input),
+  );
+  return toSelfEvaluation(row);
 }
 
 export async function updateSession(
@@ -343,21 +437,7 @@ export async function upsertEvaluation(
   if (session.status === "completed") {
     throw new FollowUpError("Completed sessions cannot be edited", 409);
   }
-  if (!["up", "down", "stable"].includes(input.tendencia)) {
-    throw new FollowUpError("Invalid tendencia", 400);
-  }
-
-  await followUpDb.upsertEvaluation(sessionId, {
-    calidad_tecnica: scoreInRange(input.calidadTecnica, "calidadTecnica"),
-    cumplimiento: scoreInRange(input.cumplimiento, "cumplimiento"),
-    comunicacion: scoreInRange(input.comunicacion, "comunicacion"),
-    colaboracion: scoreInRange(input.colaboracion, "colaboracion"),
-    autonomia: scoreInRange(input.autonomia, "autonomia"),
-    proactividad: scoreInRange(input.proactividad, "proactividad"),
-    aprendizaje: scoreInRange(input.aprendizaje, "aprendizaje"),
-    tendencia: input.tendencia,
-    observaciones: input.observaciones ?? "",
-  });
+  await followUpDb.upsertEvaluation(sessionId, parseEvaluationInput(input));
 
   return getSessionDetail(sessionId, user);
 }
@@ -408,6 +488,10 @@ export async function completeSession(
   const evaluation = await followUpDb.getEvaluation(sessionId);
   if (!evaluation) {
     throw new FollowUpError("Evaluation is required to complete the session", 400);
+  }
+  const selfEvaluation = await followUpDb.getSelfEvaluation(session.member_id, session.period);
+  if (!selfEvaluation) {
+    throw new FollowUpError("Self-evaluation is required to complete the session", 400);
   }
 
   await followUpDb.updateSession(sessionId, {

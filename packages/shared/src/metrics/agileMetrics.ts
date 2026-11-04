@@ -79,32 +79,33 @@ export function extractAltenAssignees(
   currentAssignee: string,
 ): string[] | null {
   const aliasMap = buildAltenMemberAliasMap(toAltenMemberRefs(teamMembers));
-  const assigned = new Set<string>();
 
-  const addIfMember = (label?: string | null) => {
-    const name = resolveAltenMemberName(label, aliasMap);
-    if (name) {
-      assigned.add(name);
-    }
-  };
+  const timeline: string[] = [];
+  const sorted = [...(changelog ?? [])].sort(
+    (a, b) => new Date(a.created).getTime() - new Date(b.created).getTime(),
+  );
 
-  addIfMember(currentAssignee);
-
-  for (const history of changelog ?? []) {
+  for (const history of sorted) {
     for (const item of history.items ?? []) {
       if (item.field !== "assignee") {
         continue;
       }
-      addIfMember(item.toString);
-      addIfMember(item.fromString);
+      if (item.toString) {
+        timeline.push(item.toString);
+      }
     }
   }
 
-  if (assigned.size === 0) {
-    return null;
+  timeline.push(currentAssignee);
+
+  for (let i = timeline.length - 1; i >= 0; i -= 1) {
+    const name = resolveAltenMemberName(timeline[i], aliasMap);
+    if (name) {
+      return [name];
+    }
   }
 
-  return [...assigned].sort((a, b) => a.localeCompare(b));
+  return null;
 }
 
 function parseSprintNames(value: string | null | undefined): string[] {

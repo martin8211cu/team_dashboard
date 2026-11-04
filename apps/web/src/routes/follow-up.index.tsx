@@ -195,7 +195,8 @@ function FollowUpIndexPage() {
               <th>Member</th>
               <th>Session</th>
               <th>Overall</th>
-              <th>Avg score</th>
+              <th>TL avg</th>
+              <th>Self avg</th>
               <th aria-hidden="true"></th>
             </tr>
           </thead>
@@ -218,6 +219,7 @@ function FollowUpIndexPage() {
                   </td>
                   <td>{formatOverallStatus(session?.overallStatus)}</td>
                   <td>{session?.evaluationPromedio ?? "—"}</td>
+                  <td>{row.selfEvaluationPromedio ?? "—"}</td>
                   <td className="retro-list-actions">
                     {session ? (
                       <Link

@@ -82,6 +82,7 @@ export type FollowUpPeriodMemberRow = {
   memberName: string;
   active: boolean;
   session: FollowUpSessionSummary | null;
+  selfEvaluationPromedio: number | null;
 };
 
 export type FollowUpPeriodOverview = {

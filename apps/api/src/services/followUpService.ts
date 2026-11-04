@@ -215,8 +215,12 @@ export async function getPeriodOverview(
 ): Promise<FollowUpPeriodOverview> {
   const period = validatePeriod(periodRaw);
   const memberFilter = user.role === "admin" ? undefined : user.id;
-  const sessions = await followUpDb.listSessionsForPeriod(period, memberFilter);
+  const [sessions, selfEvals] = await Promise.all([
+    followUpDb.listSessionsForPeriod(period, memberFilter),
+    followUpDb.listSelfEvaluationsForPeriod(period, memberFilter),
+  ]);
   const sessionByMember = new Map(sessions.map((s) => [s.member_id, s]));
+  const selfEvalByMember = new Map(selfEvals.map((row) => [row.member_id, row]));
 
   const adminEmail = getAdminEmail();
   let members;
@@ -234,11 +238,23 @@ export async function getPeriodOverview(
 
   const rows = members.map((member) => {
     const sessionRow = sessionByMember.get(member.id);
+    const selfEval = selfEvalByMember.get(member.id);
     return {
       memberId: member.id,
       memberName: member.name,
       active: member.active,
       session: sessionRow ? toSummary(sessionRow) : null,
+      selfEvaluationPromedio: selfEval
+        ? averageEvaluationScores({
+            calidadTecnica: selfEval.calidad_tecnica,
+            cumplimiento: selfEval.cumplimiento,
+            comunicacion: selfEval.comunicacion,
+            colaboracion: selfEval.colaboracion,
+            autonomia: selfEval.autonomia,
+            proactividad: selfEval.proactividad,
+            aprendizaje: selfEval.aprendizaje,
+          })
+        : null,
     };
   });
 

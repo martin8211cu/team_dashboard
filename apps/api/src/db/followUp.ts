@@ -260,6 +260,17 @@ export async function listSelfEvaluationsForMember(
     .select<FollowUpSelfEvaluationRow[]>("*");
 }
 
+export async function listSelfEvaluationsForPeriod(
+  period: string,
+  memberIdFilter?: number,
+): Promise<FollowUpSelfEvaluationRow[]> {
+  let query = getDb()("follow_up_self_evaluations").where({ period });
+  if (memberIdFilter != null) {
+    query = query.andWhere({ member_id: memberIdFilter });
+  }
+  return query.select<FollowUpSelfEvaluationRow[]>("*");
+}
+
 export async function insertSelfEvaluation(
   memberId: number,
   period: string,

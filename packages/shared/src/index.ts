@@ -58,6 +58,7 @@ export type {
   FollowUpSectionKey,
   FollowUpEvaluationScores,
   FollowUpEvaluation,
+  FollowUpSelfEvaluation,
   FollowUpAnswer,
   FollowUpAgreement,
   FollowUpSessionSummary,
@@ -70,10 +71,17 @@ export type {
   UpdateFollowUpSessionInput,
   UpdateFollowUpReportInput,
   UpsertFollowUpEvaluationInput,
+  SubmitFollowUpSelfEvaluationInput,
+  UpdateFollowUpSelfEvaluationInput,
   UpsertFollowUpAgreementsInput,
   FollowUpAssistInput,
   FollowUpAssistResponse,
 } from "./types/followUp";
+export type {
+  PersonalSprintSummarySlice,
+  PersonalSprintTicket,
+  PersonalSprintView,
+} from "./types/personalSprint";
 export {
   FOLLOW_UP_OVERALL_STATUS_OPTIONS,
   FOLLOW_UP_EVALUATION_DIMENSIONS,

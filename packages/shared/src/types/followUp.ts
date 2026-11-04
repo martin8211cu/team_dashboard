@@ -37,6 +37,13 @@ export type FollowUpEvaluation = FollowUpEvaluationScores & {
   promedio: number;
 };
 
+export type FollowUpSelfEvaluation = FollowUpEvaluation & {
+  memberId: number;
+  period: string;
+  submittedAt: string;
+  updatedAt: string;
+};
+
 export type FollowUpAnswer = {
   sectionKey: FollowUpSectionKey;
   questionKey: string;
@@ -90,8 +97,11 @@ export type FollowUpSessionDetail = {
   session: FollowUpSessionSummary;
   answers: FollowUpAnswer[];
   evaluation: FollowUpEvaluation | null;
+  selfEvaluation: FollowUpSelfEvaluation | null;
   agreements: FollowUpAgreement[];
   canEdit: boolean;
+  canSubmitSelfEvaluation: boolean;
+  canEditSelfEvaluation: boolean;
 };
 
 export type FollowUpReportLang = "es" | "en";
@@ -130,6 +140,12 @@ export type UpsertFollowUpEvaluationInput = FollowUpEvaluationScores & {
   tendencia: FollowUpTendencia;
   observaciones: string;
 };
+
+export type SubmitFollowUpSelfEvaluationInput = UpsertFollowUpEvaluationInput & {
+  period: string;
+};
+
+export type UpdateFollowUpSelfEvaluationInput = UpsertFollowUpEvaluationInput;
 
 export type UpsertFollowUpAgreementsInput = {
   agreements: Array<{

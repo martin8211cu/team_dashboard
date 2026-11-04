@@ -3449,3 +3449,110 @@ h3 {
   }
 }
 
+.personal-sprint {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.personal-sprint-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.personal-sprint-title {
+  margin: 0;
+  font-size: 1.45rem;
+}
+
+.personal-sprint-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.personal-sprint-select {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.personal-sprint-select select {
+  min-width: 12rem;
+}
+
+.personal-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.85rem;
+}
+
+.personal-compare-card {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.personal-compare-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.personal-compare-mine {
+  margin: 0;
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.personal-tickets,
+.personal-self-eval {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.personal-self-eval-chart .chart-canvas-wrap {
+  height: 320px;
+}
+
+.self-eval-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.self-eval-confirm {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: color-mix(in srgb, #000 45%, transparent);
+}
+
+.self-eval-confirm-card {
+  width: min(28rem, 100%);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 12px 40px color-mix(in srgb, #000 25%, transparent);
+}
+
+.self-eval-confirm-card h4 {
+  margin: 0 0 0.5rem;
+}
+
+.self-eval-panel {
+  margin-bottom: 0.5rem;
+}
+

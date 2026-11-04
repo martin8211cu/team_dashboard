@@ -9,9 +9,13 @@ import type {
   FollowUpMonthlyReport,
   FollowUpPeriodOverview,
   FollowUpReportLang,
+  FollowUpSelfEvaluation,
   FollowUpSessionDetail,
   FollowUpSessionSummary,
   HealthResponse,
+  PersonalSprintView,
+  SubmitFollowUpSelfEvaluationInput,
+  UpdateFollowUpSelfEvaluationInput,
   JiraConfigResponse,
   JiraErrorResponse,
   JiraUser,
@@ -420,6 +424,44 @@ export async function upsertFollowUpEvaluation(
     method: "PUT",
     body: JSON.stringify(input),
   });
+}
+
+export async function submitFollowUpSelfEvaluation(
+  input: SubmitFollowUpSelfEvaluationInput,
+): Promise<FollowUpSelfEvaluation> {
+  return fetchJson("/api/follow-up/self-evaluations", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export async function updateFollowUpSelfEvaluation(
+  memberId: number,
+  period: string,
+  input: UpdateFollowUpSelfEvaluationInput,
+): Promise<FollowUpSelfEvaluation> {
+  return fetchJson(
+    `/api/follow-up/self-evaluations/${memberId}/${encodeURIComponent(period)}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify(input),
+    },
+  );
+}
+
+export async function fetchPersonalSprint(options?: {
+  memberId?: number;
+  sprint?: number;
+}): Promise<PersonalSprintView> {
+  const params = new URLSearchParams();
+  if (options?.memberId != null) {
+    params.set("memberId", String(options.memberId));
+  }
+  if (options?.sprint != null) {
+    params.set("sprint", String(options.sprint));
+  }
+  const query = params.toString();
+  return fetchJson(`/api/me/sprint${query ? `?${query}` : ""}`);
 }
 
 export async function upsertFollowUpAgreements(

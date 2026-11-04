@@ -2,7 +2,7 @@ export type NavItem = {
   to: string;
   label: string;
   description?: string;
-  icon: "dashboard" | "members" | "sprints" | "metrics" | "retros" | "followUp";
+  icon: "dashboard" | "me" | "members" | "sprints" | "metrics" | "retros" | "followUp";
   activePrefix?: string[];
 };
 
@@ -15,6 +15,13 @@ export const navSections: { title: string; items: NavItem[] }[] = [
         label: "Dashboard",
         description: "Team overview",
         icon: "dashboard",
+      },
+      {
+        to: "/me",
+        label: "My sprint",
+        description: "Personal metrics and self-eval",
+        icon: "me",
+        activePrefix: ["/me"],
       },
     ],
   },
@@ -67,6 +74,7 @@ export const navSections: { title: string; items: NavItem[] }[] = [
 export const pageTitles: Record<string, string> = {
   "/": "Dashboard",
   "/login": "Sign in",
+  "/me": "My sprint",
   "/members": "Members",
   "/sprints": "Sprints",
   "/sprint": "Sprint metrics",
@@ -106,6 +114,9 @@ export function resolvePageTitle(pathname: string, search: Record<string, unknow
   }
   if (pathname === "/follow-up") {
     return pageTitles["/follow-up"];
+  }
+  if (pathname.startsWith("/me")) {
+    return pageTitles["/me"];
   }
   return pageTitles[pathname] ?? "Team Dashboard";
 }

@@ -5,12 +5,14 @@ import {
   HiChartBarSquare,
   HiChatBubbleLeftRight,
   HiSquares2X2,
+  HiUser,
   HiUsers,
 } from "react-icons/hi2";
 import type { NavItem } from "./nav-items";
 
 const NAV_ICONS: Record<NavItem["icon"], IconType> = {
   dashboard: HiSquares2X2,
+  me: HiUser,
   members: HiUsers,
   sprints: HiBookmarkSquare,
   metrics: HiChartBarSquare,

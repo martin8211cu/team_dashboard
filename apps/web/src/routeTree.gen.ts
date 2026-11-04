@@ -12,12 +12,15 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FollowUpRouteImport } from './routes/follow-up'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as MeRouteImport } from './routes/me'
 import { Route as MembersRouteImport } from './routes/members'
 import { Route as RetrosRouteImport } from './routes/retros'
 import { Route as SprintRouteImport } from './routes/sprint'
 import { Route as SprintsRouteImport } from './routes/sprints'
 import { Route as FollowUpIndexRouteImport } from './routes/follow-up.index'
 import { Route as FollowUpSessionIdRouteImport } from './routes/follow-up.$sessionId'
+import { Route as MeIndexRouteImport } from './routes/me.index'
+import { Route as MeMemberIdRouteImport } from './routes/me.$memberId'
 import { Route as MetricsEvolutionRouteImport } from './routes/metrics.evolution'
 import { Route as RetrosIndexRouteImport } from './routes/retros.index'
 import { Route as RetrosSessionIdRouteImport } from './routes/retros.$sessionId'
@@ -37,6 +40,11 @@ const FollowUpRoute = FollowUpRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeRoute = MeRouteImport.update({
+  id: '/me',
+  path: '/me',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MembersRoute = MembersRouteImport.update({
@@ -69,6 +77,16 @@ const FollowUpSessionIdRoute = FollowUpSessionIdRouteImport.update({
   path: '/$sessionId',
   getParentRoute: () => FollowUpRoute,
 } as any)
+const MeIndexRoute = MeIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MeRoute,
+} as any)
+const MeMemberIdRoute = MeMemberIdRouteImport.update({
+  id: '/$memberId',
+  path: '/$memberId',
+  getParentRoute: () => MeRoute,
+} as any)
 const MetricsEvolutionRoute = MetricsEvolutionRouteImport.update({
   id: '/metrics/evolution',
   path: '/metrics/evolution',
@@ -99,15 +117,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/follow-up': typeof FollowUpRouteWithChildren
   '/login': typeof LoginRoute
+  '/me': typeof MeRouteWithChildren
   '/members': typeof MembersRoute
   '/retros': typeof RetrosRouteWithChildren
   '/sprint': typeof SprintRoute
   '/sprints': typeof SprintsRoute
   '/follow-up/$sessionId': typeof FollowUpSessionIdRoute
+  '/me/$memberId': typeof MeMemberIdRoute
   '/metrics/evolution': typeof MetricsEvolutionRoute
   '/retros/$sessionId': typeof RetrosSessionIdRoute
   '/tasks/compare': typeof TasksCompareRoute
   '/follow-up/': typeof FollowUpIndexRoute
+  '/me/': typeof MeIndexRoute
   '/retros/': typeof RetrosIndexRoute
   '/follow-up/reports/$period': typeof FollowUpReportsPeriodRoute
 }
@@ -118,10 +139,12 @@ export interface FileRoutesByTo {
   '/sprint': typeof SprintRoute
   '/sprints': typeof SprintsRoute
   '/follow-up/$sessionId': typeof FollowUpSessionIdRoute
+  '/me/$memberId': typeof MeMemberIdRoute
   '/metrics/evolution': typeof MetricsEvolutionRoute
   '/retros/$sessionId': typeof RetrosSessionIdRoute
   '/tasks/compare': typeof TasksCompareRoute
   '/follow-up': typeof FollowUpIndexRoute
+  '/me': typeof MeIndexRoute
   '/retros': typeof RetrosIndexRoute
   '/follow-up/reports/$period': typeof FollowUpReportsPeriodRoute
 }
@@ -130,15 +153,18 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/follow-up': typeof FollowUpRouteWithChildren
   '/login': typeof LoginRoute
+  '/me': typeof MeRouteWithChildren
   '/members': typeof MembersRoute
   '/retros': typeof RetrosRouteWithChildren
   '/sprint': typeof SprintRoute
   '/sprints': typeof SprintsRoute
   '/follow-up/$sessionId': typeof FollowUpSessionIdRoute
+  '/me/$memberId': typeof MeMemberIdRoute
   '/metrics/evolution': typeof MetricsEvolutionRoute
   '/retros/$sessionId': typeof RetrosSessionIdRoute
   '/tasks/compare': typeof TasksCompareRoute
   '/follow-up/': typeof FollowUpIndexRoute
+  '/me/': typeof MeIndexRoute
   '/retros/': typeof RetrosIndexRoute
   '/follow-up/reports/$period': typeof FollowUpReportsPeriodRoute
 }
@@ -148,15 +174,18 @@ export interface FileRouteTypes {
     | '/'
     | '/follow-up'
     | '/login'
+    | '/me'
     | '/members'
     | '/retros'
     | '/sprint'
     | '/sprints'
     | '/follow-up/$sessionId'
+    | '/me/$memberId'
     | '/metrics/evolution'
     | '/retros/$sessionId'
     | '/tasks/compare'
     | '/follow-up/'
+    | '/me/'
     | '/retros/'
     | '/follow-up/reports/$period'
   fileRoutesByTo: FileRoutesByTo
@@ -167,10 +196,12 @@ export interface FileRouteTypes {
     | '/sprint'
     | '/sprints'
     | '/follow-up/$sessionId'
+    | '/me/$memberId'
     | '/metrics/evolution'
     | '/retros/$sessionId'
     | '/tasks/compare'
     | '/follow-up'
+    | '/me'
     | '/retros'
     | '/follow-up/reports/$period'
   id:
@@ -178,15 +209,18 @@ export interface FileRouteTypes {
     | '/'
     | '/follow-up'
     | '/login'
+    | '/me'
     | '/members'
     | '/retros'
     | '/sprint'
     | '/sprints'
     | '/follow-up/$sessionId'
+    | '/me/$memberId'
     | '/metrics/evolution'
     | '/retros/$sessionId'
     | '/tasks/compare'
     | '/follow-up/'
+    | '/me/'
     | '/retros/'
     | '/follow-up/reports/$period'
   fileRoutesById: FileRoutesById
@@ -195,6 +229,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FollowUpRoute: typeof FollowUpRouteWithChildren
   LoginRoute: typeof LoginRoute
+  MeRoute: typeof MeRouteWithChildren
   MembersRoute: typeof MembersRoute
   RetrosRoute: typeof RetrosRouteWithChildren
   SprintRoute: typeof SprintRoute
@@ -224,6 +259,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/me': {
+      id: '/me'
+      path: '/me'
+      fullPath: '/me'
+      preLoaderRoute: typeof MeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/members': {
@@ -267,6 +309,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/follow-up/$sessionId'
       preLoaderRoute: typeof FollowUpSessionIdRouteImport
       parentRoute: typeof FollowUpRoute
+    }
+    '/me/': {
+      id: '/me/'
+      path: '/'
+      fullPath: '/me/'
+      preLoaderRoute: typeof MeIndexRouteImport
+      parentRoute: typeof MeRoute
+    }
+    '/me/$memberId': {
+      id: '/me/$memberId'
+      path: '/$memberId'
+      fullPath: '/me/$memberId'
+      preLoaderRoute: typeof MeMemberIdRouteImport
+      parentRoute: typeof MeRoute
     }
     '/metrics/evolution': {
       id: '/metrics/evolution'
@@ -322,6 +378,18 @@ const FollowUpRouteWithChildren = FollowUpRoute._addFileChildren(
   FollowUpRouteChildren,
 )
 
+interface MeRouteChildren {
+  MeMemberIdRoute: typeof MeMemberIdRoute
+  MeIndexRoute: typeof MeIndexRoute
+}
+
+const MeRouteChildren: MeRouteChildren = {
+  MeMemberIdRoute: MeMemberIdRoute,
+  MeIndexRoute: MeIndexRoute,
+}
+
+const MeRouteWithChildren = MeRoute._addFileChildren(MeRouteChildren)
+
 interface RetrosRouteChildren {
   RetrosSessionIdRoute: typeof RetrosSessionIdRoute
   RetrosIndexRoute: typeof RetrosIndexRoute
@@ -339,6 +407,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FollowUpRoute: FollowUpRouteWithChildren,
   LoginRoute: LoginRoute,
+  MeRoute: MeRouteWithChildren,
   MembersRoute: MembersRoute,
   RetrosRoute: RetrosRouteWithChildren,
   SprintRoute: SprintRoute,

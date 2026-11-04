@@ -6,6 +6,7 @@ import type {
   FollowUpEvaluationScores,
   FollowUpOverallStatus,
   FollowUpTendencia,
+  UpsertFollowUpEvaluationInput,
 } from "@team-dashboard/shared";
 import {
   FOLLOW_UP_CLOSING_QUESTION,
@@ -17,10 +18,13 @@ import {
   formatSessionStatus,
   formatTendencia,
 } from "@team-dashboard/shared";
+import { SelfEvaluationForm } from "../components/SelfEvaluationForm";
 import {
   assistFollowUpSession,
   completeFollowUpSession,
   fetchFollowUpSession,
+  submitFollowUpSelfEvaluation,
+  updateFollowUpSelfEvaluation,
   updateFollowUpSession,
   upsertFollowUpAgreements,
   upsertFollowUpEvaluation,
@@ -179,6 +183,35 @@ function FollowUpSessionPage() {
       setError(null);
       queryClient.setQueryData(["follow-up-session", sessionId], detail);
       queryClient.invalidateQueries({ queryKey: ["follow-up"] });
+    },
+    onError: (err: Error) => setError(err.message),
+  });
+
+  const selfEvalSubmitMutation = useMutation({
+    mutationFn: (input: UpsertFollowUpEvaluationInput) =>
+      submitFollowUpSelfEvaluation({
+        ...input,
+        period: detailQuery.data!.session.period,
+      }),
+    onSuccess: () => {
+      setError(null);
+      queryClient.invalidateQueries({ queryKey: ["follow-up-session", sessionId] });
+      queryClient.invalidateQueries({ queryKey: ["personal-sprint"] });
+    },
+    onError: (err: Error) => setError(err.message),
+  });
+
+  const selfEvalAdminMutation = useMutation({
+    mutationFn: (input: UpsertFollowUpEvaluationInput) =>
+      updateFollowUpSelfEvaluation(
+        detailQuery.data!.session.memberId,
+        detailQuery.data!.session.period,
+        input,
+      ),
+    onSuccess: () => {
+      setError(null);
+      queryClient.invalidateQueries({ queryKey: ["follow-up-session", sessionId] });
+      queryClient.invalidateQueries({ queryKey: ["personal-sprint"] });
     },
     onError: (err: Error) => setError(err.message),
   });
@@ -391,91 +424,102 @@ function FollowUpSessionPage() {
       )}
 
       {step === sections.length + 1 && (
-        <section className="follow-up-panel">
-          <header className="follow-up-panel-header">
-            <div>
-              <h3>Informal evaluation</h3>
-              <p className="meta-line">Scale 1–5 · used for promotions and early risk signals.</p>
-            </div>
-            <div className="follow-up-avg-chip" title={`Trend: ${formatTendencia(evalForm.tendencia)}`}>
-              Avg <strong>{promedio}</strong>
-            </div>
-          </header>
-          <div className="follow-up-eval-grid">
-            {FOLLOW_UP_EVALUATION_DIMENSIONS.map((dim) => (
-              <div key={dim.key} className="follow-up-score-card">
-                <div className="follow-up-score-card-copy">
-                  <strong>{dim.label}</strong>
-                  <span className="meta-muted">{dim.description}</span>
-                </div>
-                <div className="follow-up-score-pills" role="group" aria-label={dim.label}>
-                  {[1, 2, 3, 4, 5].map((score) => (
-                    <button
-                      key={score}
-                      type="button"
-                      className={`follow-up-score-pill${
-                        evalForm[dim.key] === score ? " is-selected" : ""
-                      }`}
-                      disabled={!canEdit}
-                      onClick={() => setEvalForm((prev) => ({ ...prev, [dim.key]: score }))}
-                    >
-                      {score}
-                    </button>
-                  ))}
-                </div>
+        <>
+          <SelfEvaluationForm
+            period={session.period}
+            value={detail.selfEvaluation}
+            canSubmit={detail.canSubmitSelfEvaluation}
+            canEdit={detail.canEditSelfEvaluation}
+            busy={selfEvalSubmitMutation.isPending || selfEvalAdminMutation.isPending}
+            onSubmit={(input) => selfEvalSubmitMutation.mutate(input)}
+            onAdminSave={(input) => selfEvalAdminMutation.mutate(input)}
+          />
+          <section className="follow-up-panel">
+            <header className="follow-up-panel-header">
+              <div>
+                <h3>TL evaluation</h3>
+                <p className="meta-line">Scale 1–5 · used for promotions and early risk signals.</p>
               </div>
-            ))}
-          </div>
-          <label className="follow-up-field">
-            <span>Trend</span>
-            <select
-              value={evalForm.tendencia}
-              disabled={!canEdit}
-              onChange={(event) =>
-                setEvalForm((prev) => ({
-                  ...prev,
-                  tendencia: event.target.value as FollowUpTendencia,
-                }))
-              }
-            >
-              <option value="up">↑ Improving</option>
-              <option value="stable">→ Stable</option>
-              <option value="down">↓ Declining</option>
-            </select>
-          </label>
-          <label className="follow-up-field">
-            <span>Notes</span>
-            <textarea
-              rows={4}
-              value={evalForm.observaciones}
-              disabled={!canEdit}
-              placeholder="Evidence and focus for next cycle…"
-              onChange={(event) =>
-                setEvalForm((prev) => ({ ...prev, observaciones: event.target.value }))
-              }
-            />
-          </label>
-          {canEdit && (
-            <button
-              type="button"
-              className="sprint-btn sprint-btn-secondary"
-              disabled={assistMutation.isPending}
-              onClick={() => assistMutation.mutate("evaluation_notes")}
-            >
-              {assistMutation.isPending ? "Asking Gemini…" : "Suggest notes with Gemini"}
-            </button>
-          )}
-          <label className="follow-up-field">
-            <span>Action items</span>
-            <textarea
-              rows={4}
-              value={agreementText}
-              disabled={!canEdit}
-              placeholder="One commitment per line"
-              onChange={(event) => setAgreementText(event.target.value)}
-            />
-          </label>
-        </section>
+              <div className="follow-up-avg-chip" title={`Trend: ${formatTendencia(evalForm.tendencia)}`}>
+                Avg <strong>{promedio}</strong>
+              </div>
+            </header>
+            <div className="follow-up-eval-grid">
+              {FOLLOW_UP_EVALUATION_DIMENSIONS.map((dim) => (
+                <div key={dim.key} className="follow-up-score-card">
+                  <div className="follow-up-score-card-copy">
+                    <strong>{dim.label}</strong>
+                    <span className="meta-muted">{dim.description}</span>
+                  </div>
+                  <div className="follow-up-score-pills" role="group" aria-label={dim.label}>
+                    {[1, 2, 3, 4, 5].map((score) => (
+                      <button
+                        key={score}
+                        type="button"
+                        className={`follow-up-score-pill${
+                          evalForm[dim.key] === score ? " is-selected" : ""
+                        }`}
+                        disabled={!canEdit}
+                        onClick={() => setEvalForm((prev) => ({ ...prev, [dim.key]: score }))}
+                      >
+                        {score}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <label className="follow-up-field">
+              <span>Trend</span>
+              <select
+                value={evalForm.tendencia}
+                disabled={!canEdit}
+                onChange={(event) =>
+                  setEvalForm((prev) => ({
+                    ...prev,
+                    tendencia: event.target.value as FollowUpTendencia,
+                  }))
+                }
+              >
+                <option value="up">↑ Improving</option>
+                <option value="stable">→ Stable</option>
+                <option value="down">↓ Declining</option>
+              </select>
+            </label>
+            <label className="follow-up-field">
+              <span>Notes</span>
+              <textarea
+                rows={4}
+                value={evalForm.observaciones}
+                disabled={!canEdit}
+                placeholder="Evidence and focus for next cycle…"
+                onChange={(event) =>
+                  setEvalForm((prev) => ({ ...prev, observaciones: event.target.value }))
+                }
+              />
+            </label>
+            {canEdit && (
+              <button
+                type="button"
+                className="sprint-btn sprint-btn-secondary"
+                disabled={assistMutation.isPending}
+                onClick={() => assistMutation.mutate("evaluation_notes")}
+              >
+                {assistMutation.isPending ? "Asking Gemini…" : "Suggest notes with Gemini"}
+              </button>
+            )}
+            <label className="follow-up-field">
+              <span>Action items</span>
+              <textarea
+                rows={4}
+                value={agreementText}
+                disabled={!canEdit}
+                placeholder="One commitment per line"
+                onChange={(event) => setAgreementText(event.target.value)}
+              />
+            </label>
+          </section>
+        </>
       )}
 
       <div className="follow-up-nav">

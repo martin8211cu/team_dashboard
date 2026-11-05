@@ -24,7 +24,6 @@ import {
   completeFollowUpSession,
   fetchFollowUpSession,
   submitFollowUpSelfEvaluation,
-  updateFollowUpSelfEvaluation,
   updateFollowUpSession,
   upsertFollowUpAgreements,
   upsertFollowUpEvaluation,
@@ -193,21 +192,6 @@ function FollowUpSessionPage() {
         ...input,
         period: detailQuery.data!.session.period,
       }),
-    onSuccess: () => {
-      setError(null);
-      queryClient.invalidateQueries({ queryKey: ["follow-up-session", sessionId] });
-      queryClient.invalidateQueries({ queryKey: ["personal-sprint"] });
-    },
-    onError: (err: Error) => setError(err.message),
-  });
-
-  const selfEvalAdminMutation = useMutation({
-    mutationFn: (input: UpsertFollowUpEvaluationInput) =>
-      updateFollowUpSelfEvaluation(
-        detailQuery.data!.session.memberId,
-        detailQuery.data!.session.period,
-        input,
-      ),
     onSuccess: () => {
       setError(null);
       queryClient.invalidateQueries({ queryKey: ["follow-up-session", sessionId] });
@@ -429,10 +413,10 @@ function FollowUpSessionPage() {
             period={session.period}
             value={detail.selfEvaluation}
             canSubmit={detail.canSubmitSelfEvaluation}
-            canEdit={detail.canEditSelfEvaluation}
-            busy={selfEvalSubmitMutation.isPending || selfEvalAdminMutation.isPending}
+            canEdit={false}
+            busy={selfEvalSubmitMutation.isPending}
             onSubmit={(input) => selfEvalSubmitMutation.mutate(input)}
-            onAdminSave={(input) => selfEvalAdminMutation.mutate(input)}
+            onAdminSave={() => undefined}
           />
           <section className="follow-up-panel">
             <header className="follow-up-panel-header">

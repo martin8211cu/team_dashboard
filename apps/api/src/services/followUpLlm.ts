@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import type { FollowUpAssistKind } from "@team-dashboard/shared";
-import { FOLLOW_UP_ALL_QUESTIONS } from "@team-dashboard/shared";
+import type { FollowUpAssistKind, FollowUpEvaluationScores } from "@team-dashboard/shared";
+import { FOLLOW_UP_ALL_QUESTIONS, FOLLOW_UP_EVALUATION_DIMENSIONS } from "@team-dashboard/shared";
 
 export class FollowUpLlmError extends Error {
   status: 400 | 502;
@@ -231,4 +231,74 @@ Reglas:
     throw new FollowUpLlmError("Gemini report missing English content", 502);
   }
   return split;
+}
+
+const EVAL_HEADERS_ES: Record<(typeof FOLLOW_UP_EVALUATION_DIMENSIONS)[number]["key"], string> = {
+  calidadTecnica: "Calidad técnica",
+  cumplimiento: "Cumplimiento",
+  comunicacion: "Comunicación",
+  colaboracion: "Colaboración",
+  autonomia: "Autonomía",
+  proactividad: "Proactividad",
+  aprendizaje: "Aprendizaje",
+};
+
+export type EvaluationTableInput = {
+  memberName: string;
+  scores: FollowUpEvaluationScores | null;
+  tlPromedio: number | null;
+  selfPromedio: number | null;
+};
+
+function cell(value: string | number | null | undefined): string {
+  if (value == null || value === "") {
+    return "—";
+  }
+  return String(value).replaceAll("|", "\\|");
+}
+
+function scoreCell(value: number | null | undefined): string {
+  if (value == null || Number.isNaN(value)) {
+    return "—";
+  }
+  return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
+function markdownTable(headers: string[], rows: string[][]): string {
+  const head = `| ${headers.map(cell).join(" | ")} |`;
+  const sep = `| ${headers.map(() => "---").join(" | ")} |`;
+  const body = rows.map((row) => `| ${row.map(cell).join(" | ")} |`).join("\n");
+  return [head, sep, body].filter(Boolean).join("\n");
+}
+
+export function buildEvaluationTables(rows: EvaluationTableInput[]): {
+  es: string;
+  en: string;
+} {
+  const sorted = [...rows].sort((a, b) => a.memberName.localeCompare(b.memberName));
+  const esHeaders = [
+    "Colaborador",
+    ...FOLLOW_UP_EVALUATION_DIMENSIONS.map((dim) => EVAL_HEADERS_ES[dim.key]),
+    "Promedio TL",
+    "Promedio autoevaluación",
+  ];
+  const enHeaders = [
+    "Member",
+    ...FOLLOW_UP_EVALUATION_DIMENSIONS.map((dim) => dim.label),
+    "TL avg",
+    "Self avg",
+  ];
+
+  const esRows = sorted.map((row) => [
+    row.memberName,
+    ...FOLLOW_UP_EVALUATION_DIMENSIONS.map((dim) => scoreCell(row.scores?.[dim.key] ?? null)),
+    scoreCell(row.tlPromedio),
+    scoreCell(row.selfPromedio),
+  ]);
+  const enRows = esRows;
+
+  return {
+    es: `## Evaluaciones\n\n${markdownTable(esHeaders, esRows)}`,
+    en: `## Evaluations\n\n${markdownTable(enHeaders, enRows)}`,
+  };
 }

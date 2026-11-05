@@ -33,6 +33,7 @@ import * as followUpDb from "../db/followUp";
 import {
   assistFromAnswers,
   FollowUpLlmError,
+  buildEvaluationTables,
   generateMonthlyReportLocales,
   getGeminiModelName,
 } from "./followUpLlm";
@@ -577,6 +578,8 @@ export async function generateReport(
   }
 
   const team = resolveTeamSettings();
+  const selfEvals = await followUpDb.listSelfEvaluationsForPeriod(period);
+  const selfEvalByMember = new Map(selfEvals.map((row) => [row.member_id, row]));
   const sessions = details.map(({ session, answers, evaluation, agreements }) => ({
     memberName: session.member_name ?? "",
     overallStatus: session.overall_status,
@@ -605,10 +608,23 @@ export async function generateReport(
       techLead: user.name,
       sessions,
     });
+    const tables = buildEvaluationTables(
+      details.map(({ session, evaluation }) => {
+        const selfEval = selfEvalByMember.get(session.member_id);
+        const tl = evaluation ? toEvaluation(evaluation) : null;
+        const self = selfEval ? toSelfEvaluation(selfEval) : null;
+        return {
+          memberName: session.member_name ?? "",
+          scores: tl,
+          tlPromedio: tl?.promedio ?? null,
+          selfPromedio: self?.promedio ?? null,
+        };
+      }),
+    );
     const row = await followUpDb.upsertMonthlyReport({
       period,
-      contentMdEs: locales.contentMdEs,
-      contentMdEn: locales.contentMdEn,
+      contentMdEs: `${locales.contentMdEs.trim()}\n\n${tables.es}`,
+      contentMdEn: `${locales.contentMdEn.trim()}\n\n${tables.en}`,
       model: getGeminiModelName(),
       generatedBy: user.id,
     });

@@ -693,6 +693,11 @@ export async function getReportPdf(
     lang === "es"
       ? `Resumen-1-1-${period}-BM-Competence-ES.pdf`
       : `Summary-1-1-${period}-BM-Competence-EN.pdf`;
-  const buffer = await markdownToPdfBuffer(content, title);
-  return { buffer, filename, lang };
+  try {
+    const buffer = await markdownToPdfBuffer(content, title);
+    return { buffer, filename, lang };
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "PDF generation failed";
+    throw new FollowUpError(`Failed to generate PDF: ${message}`, 502);
+  }
 }

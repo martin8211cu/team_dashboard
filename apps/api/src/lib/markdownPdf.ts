@@ -31,6 +31,22 @@ function isTableRow(line: string): boolean {
 
 type PdfDoc = InstanceType<typeof PDFDocument>;
 
+function drawMarkdownTableFallback(doc: PdfDoc, rows: string[][]): void {
+  doc.moveDown(0.2);
+  for (const [rowIndex, row] of rows.entries()) {
+    const line = row.map((cell) => cell.trim()).filter(Boolean).join(" · ");
+    if (!line) {
+      continue;
+    }
+    doc
+      .font(rowIndex === 0 ? "Helvetica-Bold" : "Helvetica")
+      .fontSize(9)
+      .fillColor("#000000")
+      .text(line, { paragraphGap: 2 });
+  }
+  doc.moveDown(0.35);
+}
+
 function drawMarkdownTable(doc: PdfDoc, rows: string[][]): void {
   if (rows.length === 0) {
     return;
@@ -50,36 +66,48 @@ function drawMarkdownTable(doc: PdfDoc, rows: string[][]): void {
   });
 
   const pageWidth = doc.page.width - doc.page.margins.left - doc.page.margins.right;
-  const columnStyles = Array.from({ length: colCount }, () => "*");
+  const wide = colCount >= 7;
+  const fontSize = wide ? 7 : 9;
+  const padding = wide ? 3 : 6;
+  // Keep the first column (usually names) readable on dense score tables.
+  const firstColWidth = wide ? Math.min(120, Math.floor(pageWidth * 0.22)) : null;
+  const columnStyles = Array.from({ length: colCount }, (_, index) =>
+    index === 0 && firstColWidth != null ? { width: firstColWidth } : "*",
+  );
 
   const data = normalized.map((row, rowIndex) =>
     row.map((text) => ({
       text,
       font: {
         src: rowIndex === 0 ? "Helvetica-Bold" : "Helvetica",
-        size: 9,
+        size: fontSize,
       },
       type: rowIndex === 0 ? ("TH" as const) : ("TD" as const),
     })),
   );
 
   doc.moveDown(0.2);
-  doc.table({
-    maxWidth: pageWidth,
-    columnStyles,
-    defaultStyle: {
-      border: true,
-      borderColor: "#cbd5e1",
-      padding: 6,
-      align: { x: "left", y: "center" },
-    },
-    rowStyles: (rowIndex: number) =>
-      rowIndex === 0
-        ? { backgroundColor: "#f1f5f9" }
-        : { backgroundColor: rowIndex % 2 === 0 ? "#f8fafc" : "#ffffff" },
-    data,
-  });
-  doc.moveDown(0.35);
+  try {
+    doc.table({
+      maxWidth: pageWidth,
+      columnStyles,
+      defaultStyle: {
+        border: true,
+        borderColor: "#cbd5e1",
+        padding,
+        align: { x: "left", y: "center" },
+      },
+      rowStyles: (rowIndex: number) =>
+        rowIndex === 0
+          ? { backgroundColor: "#f1f5f9" }
+          : { backgroundColor: rowIndex % 2 === 0 ? "#f8fafc" : "#ffffff" },
+      data,
+    });
+    doc.moveDown(0.35);
+  } catch {
+    // PDFKit table can throw on extreme layouts; keep report downloadable.
+    drawMarkdownTableFallback(doc, normalized);
+  }
 }
 
 /** Render markdown-ish text to a PDF buffer with real tables for pipe syntax. */

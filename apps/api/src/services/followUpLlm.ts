@@ -233,14 +233,25 @@ Reglas:
   return split;
 }
 
+/** Short headers so the 10-col table fits A4 PDF without clipping. */
 const EVAL_HEADERS_ES: Record<(typeof FOLLOW_UP_EVALUATION_DIMENSIONS)[number]["key"], string> = {
-  calidadTecnica: "Calidad técnica",
-  cumplimiento: "Cumplimiento",
-  comunicacion: "Comunicación",
-  colaboracion: "Colaboración",
-  autonomia: "Autonomía",
-  proactividad: "Proactividad",
-  aprendizaje: "Aprendizaje",
+  calidadTecnica: "CT",
+  cumplimiento: "Cum",
+  comunicacion: "Com",
+  colaboracion: "Col",
+  autonomia: "Aut",
+  proactividad: "Pro",
+  aprendizaje: "Apr",
+};
+
+const EVAL_HEADERS_EN: Record<(typeof FOLLOW_UP_EVALUATION_DIMENSIONS)[number]["key"], string> = {
+  calidadTecnica: "TQ",
+  cumplimiento: "Del",
+  comunicacion: "Com",
+  colaboracion: "Col",
+  autonomia: "Aut",
+  proactividad: "Pro",
+  aprendizaje: "Lrn",
 };
 
 export type EvaluationTableInput = {
@@ -279,14 +290,14 @@ export function buildEvaluationTables(rows: EvaluationTableInput[]): {
   const esHeaders = [
     "Colaborador",
     ...FOLLOW_UP_EVALUATION_DIMENSIONS.map((dim) => EVAL_HEADERS_ES[dim.key]),
-    "Promedio TL",
-    "Promedio autoevaluación",
+    "TL",
+    "Auto",
   ];
   const enHeaders = [
     "Member",
-    ...FOLLOW_UP_EVALUATION_DIMENSIONS.map((dim) => dim.label),
-    "TL avg",
-    "Self avg",
+    ...FOLLOW_UP_EVALUATION_DIMENSIONS.map((dim) => EVAL_HEADERS_EN[dim.key]),
+    "TL",
+    "Self",
   ];
 
   const esRows = sorted.map((row) => [
@@ -297,8 +308,13 @@ export function buildEvaluationTables(rows: EvaluationTableInput[]): {
   ]);
   const enRows = esRows;
 
+  const legendEs =
+    "Abreviaturas: CT=Calidad técnica, Cum=Cumplimiento, Com=Comunicación, Col=Colaboración, Aut=Autonomía, Pro=Proactividad, Apr=Aprendizaje, TL=Promedio TL, Auto=Promedio autoevaluación.";
+  const legendEn =
+    "Abbreviations: TQ=Technical quality, Del=Delivery, Com=Communication, Col=Collaboration, Aut=Autonomy, Pro=Proactivity, Lrn=Learning, TL=TL avg, Self=Self avg.";
+
   return {
-    es: `## Evaluaciones\n\n${markdownTable(esHeaders, esRows)}`,
-    en: `## Evaluations\n\n${markdownTable(enHeaders, enRows)}`,
+    es: `## Evaluaciones\n\n${legendEs}\n\n${markdownTable(esHeaders, esRows)}`,
+    en: `## Evaluations\n\n${legendEn}\n\n${markdownTable(enHeaders, enRows)}`,
   };
 }

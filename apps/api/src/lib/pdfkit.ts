@@ -3,6 +3,8 @@
  * pdfkit Node entry registers standard fonts via dynamic `#standard-fonts/*`
  * requires that are not present next to the binary, which breaks PDF downloads
  * in Docker (502). The browser build + static font imports are bundled instead.
+ *
+ * Path is `apps/api/node_modules/pdfkit` (local install or Dockerfile symlink).
  */
 import PDFDocument, {
   registerStdFonts,

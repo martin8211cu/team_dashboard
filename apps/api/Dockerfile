@@ -14,6 +14,15 @@ RUN bun install --frozen-lockfile --filter "@team-dashboard/api" --production
 COPY packages packages
 COPY apps/api apps/api
 
+# bun may hoist pdfkit under /app/node_modules; the PDF entry imports the
+# browser build via apps/api/node_modules/pdfkit so compile can embed fonts.
+RUN set -e; \
+  PDFKIT_PKG="$(bun -e "console.log(Bun.resolveSync('pdfkit/package.json', process.cwd() + '/apps/api/src'))")"; \
+  PDFKIT_DIR="$(dirname "$PDFKIT_PKG")"; \
+  mkdir -p apps/api/node_modules; \
+  ln -sfn "$PDFKIT_DIR" apps/api/node_modules/pdfkit; \
+  test -f apps/api/node_modules/pdfkit/js/pdfkit.browser.mjs
+
 RUN set -e; \
   EXTRAS=""; \
   for pkg in mysql2 oracledb mariadb tedious sqlite3 mysql better-sqlite3; do \

@@ -1,4 +1,4 @@
-import PDFDocument from "pdfkit";
+import PDFDocument, { type PdfDoc } from "./pdfkit";
 
 function stripInlineMarkdown(text: string): string {
   return text
@@ -28,8 +28,6 @@ function isTableRow(line: string): boolean {
   const trimmed = line.trim();
   return trimmed.startsWith("|") && trimmed.includes("|", 1);
 }
-
-type PdfDoc = InstanceType<typeof PDFDocument>;
 
 function drawMarkdownTableFallback(doc: PdfDoc, rows: string[][]): void {
   doc.moveDown(0.2);
